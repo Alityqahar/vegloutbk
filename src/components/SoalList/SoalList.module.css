@@ -1,0 +1,281 @@
+.soalSection {
+width: 100%;
+margin: 0 auto;
+}
+
+.soalSectionHeader {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 1rem;
+margin-bottom: 2rem;
+}
+
+.soalSectionTitle {
+font-size: 2rem;
+font-weight: 800;
+color: #222;
+letter-spacing: -1px;
+}
+
+.addBtn {
+background: #007bff;
+color: #fff;
+border: none;
+border-radius: 50%;
+width: 44px;
+height: 44px;
+font-size: 2rem;
+font-weight: 700;
+display: flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+box-shadow: 0 2px 8px rgba(0, 123, 255, 0.10);
+transition: background 0.2s, box-shadow 0.2s;
+outline: none;
+}
+
+.addBtn:hover,
+.addBtn:focus {
+background: #0056b3;
+box-shadow: 0 4px 16px rgba(0, 123, 255, 0.18);
+}
+
+.addIcon {
+text-align: center;
+font-size: 2rem;
+line-height: 1;
+font-weight: 700;
+}
+
+.soalGrid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 1.5rem;
+width: 100%;
+}
+
+.soalItem {
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+background: #fff;
+border-radius: 10px;
+box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+padding: 1.25rem 1.5rem;
+transition: box-shadow 0.2s;
+border: 1px solid #f0f0f0;
+gap: 1rem;
+min-width: 0;
+}
+
+.soalItem:hover {
+box-shadow: 0 4px 20px rgba(0, 123, 255, 0.10);
+border-color: #e0eaff;
+}
+
+.soalInfo {
+flex: 1 1 0;
+min-width: 0;
+}
+
+.soalTitle {
+font-size: 1.1rem;
+font-weight: 700;
+color: #222;
+margin-bottom: 0.25rem;
+text-overflow: ellipsis;
+overflow: hidden;
+white-space: nowrap;
+}
+
+.soalDesc {
+font-size: 0.97rem;
+color: #666;
+opacity: 0.85;
+/* tampilkan multiline, tidak dipotong */
+white-space: pre-line;
+overflow-wrap: break-word;
+word-break: break-word;
+margin-top: 0.5rem;
+}
+
+.soalBtn {
+flex-shrink: 0;
+padding: 0.55rem 1.2rem;
+background: #007bff;
+color: #fff;
+border-radius: 6px;
+text-decoration: none;
+font-weight: 600;
+font-size: 0.97rem;
+transition: background 0.2s;
+border: none;
+outline: none;
+box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
+cursor: pointer;
+display: inline-block;
+margin-top: 1rem;
+text-align: center;
+}
+
+.soalBtn:hover,
+.soalBtn:focus {
+background: #0056b3;
+color: #fff;
+}
+
+/* Modal Styles */
+.modalBackdrop {
+position: fixed;
+inset: 0;
+background: rgba(30, 40, 60, 0.25);
+z-index: 10000;
+display: flex;
+align-items: center;
+justify-content: center;
+animation: fadeInModal 0.2s;
+}
+
+@keyframes fadeInModal {
+from {
+opacity: 0;
+}
+
+to {
+opacity: 1;
+}
+}
+
+.modalContent {
+background: #fff;
+border-radius: 14px;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+padding: 2rem 2.2rem 1.5rem;
+min-width: 320px;
+max-width: 95vw;
+width: 400px;
+position: relative;
+animation: popInModal 0.2s;
+}
+
+@keyframes popInModal {
+from {
+transform: scale(0.95);
+opacity: 0;
+}
+
+to {
+transform: scale(1);
+opacity: 1;
+}
+}
+
+.modalTitle {
+font-size: 1.3rem;
+font-weight: 700;
+margin-bottom: 1.2rem;
+color: #222;
+text-align: center;
+}
+
+.modalForm {
+display: flex;
+flex-direction: column;
+gap: 1rem;
+}
+
+.input,
+.textarea {
+width: 100%;
+padding: 0.7rem 1rem;
+border-radius: 6px;
+border: 1px solid #d0d0d0;
+font-size: 1rem;
+font-family: inherit;
+margin-top: 0.3rem;
+background: #f8fafd;
+resize: none;
+}
+
+.input:focus,
+.textarea:focus {
+border-color: #007bff;
+outline: none;
+background: #fff;
+}
+
+.textarea {
+min-height: 80px;
+max-height: 200px;
+}
+
+.modalActions {
+display: flex;
+justify-content: flex-end;
+gap: 1rem;
+margin-top: 1rem;
+}
+
+.modalBtnCancel {
+background: #f0f0f0;
+color: #333;
+border: none;
+border-radius: 6px;
+padding: 0.6rem 1.2rem;
+font-weight: 600;
+cursor: pointer;
+transition: background 0.2s;
+}
+
+.modalBtnCancel:hover {
+background: #e0e0e0;
+}
+
+.modalBtnSubmit {
+background: #007bff;
+color: #fff;
+border: none;
+border-radius: 6px;
+padding: 0.6rem 1.2rem;
+font-weight: 600;
+cursor: pointer;
+transition: background 0.2s;
+}
+
+.modalBtnSubmit:hover {
+background: #0056b3;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+.soalGrid {
+grid-template-columns: repeat(2, 1fr);
+gap: 1.2rem;
+}
+}
+
+@media (max-width: 700px) {
+.soalSectionTitle {
+font-size: 1.3rem;
+margin-bottom: 1.2rem;
+}
+
+.soalGrid {
+grid-template-columns: 1fr;
+gap: 1rem;
+}
+
+.soalItem {
+padding: 1rem;
+}
+
+.soalTitle {
+font-size: 1rem;
+}
+
+.soalDesc {
+font-size: 0.92rem;
+}
+}

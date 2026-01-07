@@ -1,0 +1,132 @@
+.authWrapper {
+min-height: 100vh;
+background: linear-gradient(120deg, #f5f7fa 0%, #e0e7ef 100%);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 60px 12px 24px;
+}
+
+.authCard {
+background: #fff;
+border-radius: 18px;
+box-shadow: 0 8px 32px rgba(0,123,255,0.07), 0 1.5px 6px rgba(0,0,0,0.06);
+padding: 2.5rem 2.5rem 2rem;
+max-width: 400px;
+width: 100%;
+display: flex;
+flex-direction: column;
+gap: 1.5rem;
+animation: fadeInAuth 0.7s;
+}
+
+@keyframes fadeInAuth {
+from { opacity: 0; transform: translateY(30px);}
+to { opacity: 1; transform: translateY(0);}
+}
+
+.authTitle {
+font-size: 2rem;
+font-weight: 800;
+color: #222;
+text-align: center;
+margin-bottom: 0.5rem;
+letter-spacing: -1px;
+}
+
+.authForm {
+display: flex;
+flex-direction: column;
+gap: 1.1rem;
+}
+
+.authLabel {
+font-size: 1rem;
+font-weight: 600;
+color: #333;
+margin-bottom: 0.2rem;
+display: flex;
+flex-direction: column;
+gap: 0.3rem;
+}
+
+.authInput {
+padding: 0.7rem 1rem;
+border-radius: 7px;
+border: 1px solid #d0d0d0;
+font-size: 1rem;
+background: #f8fafd;
+transition: border 0.2s, background 0.2s;
+}
+
+.authInput:focus {
+border-color: #007bff;
+background: #fff;
+outline: none;
+}
+
+.authBtn {
+margin-top: 10px;
+padding: 10px 12px;
+background: #007bff;
+color: #fff;
+border: none;
+border-radius: 7px;
+font-size: 1.1rem;
+font-weight: 700;
+cursor: pointer;
+transition: background 0.2s;
+box-shadow: 0 2px 8px rgba(0,123,255,0.08);
+text-decoration: none;
+font-style: none;
+}
+
+.authBtn:hover,
+.authBtn:focus {
+background: #0056b3;
+}
+
+.authError {
+color: #e74c3c;
+background: #fff0f0;
+border: 1px solid #ffd6d6;
+border-radius: 6px;
+padding: 0.7rem 1rem;
+font-size: 0.97rem;
+margin-bottom: 0.5rem;
+text-align: center;
+}
+
+.authFooter {
+text-align: center;
+font-size: 1rem;
+color: #555;
+margin-top: 0.5rem;
+}
+
+.authLink {
+color: #007bff;
+text-decoration: none;
+font-weight: 600;
+margin-left: 0.2rem;
+transition: color 0.2s;
+}
+
+.authLink:hover {
+color: #0056b3;
+}
+
+@media (max-width: 600px) {
+.authCard {
+padding: 1.5rem 0.7rem 1.2rem;
+max-width: 98vw;
+}
+.authTitle {
+font-size: 1.3rem;
+}
+.authBtn {
+font-size: 1rem;
+text-decoration: none;
+font-style: none;
+}
+}
