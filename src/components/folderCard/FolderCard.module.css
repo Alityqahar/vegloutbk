@@ -1,11 +1,66 @@
-/* FolderCard.module.css */
+/* ============================================
+FOLDER CARD STYLES - FIXED VERSION
+============================================ */
 
+/* Section Wrapper dengan Padding yang Proporsional */
+.folderSection {
+width: 100%;
+min-height: 100vh;
+padding: 100px var(--spacing-xl) var(--spacing-3xl);
+background: var(--color-bg-tertiary);
+}
+
+/* Container */
+.folderContainer {
+max-width: 1400px;
+margin: 0 auto;
+padding: 0 var(--spacing-lg);
+}
+
+/* Header Section */
+.folderHeader {
+margin-bottom: var(--spacing-2xl);
+text-align: center;
+}
+
+.folderHeaderTitle {
+font-size: clamp(1.75rem, 4vw, 2.5rem);
+font-weight: var(--font-weight-extrabold);
+color: var(--color-text-primary);
+margin-bottom: var(--spacing-sm);
+letter-spacing: -0.5px;
+}
+
+.folderHeaderSubtitle {
+font-size: clamp(1rem, 2vw, 1.125rem);
+color: var(--color-text-secondary);
+margin: 0;
+}
+
+/* Folder Card - CRITICAL: Remove ALL underlines and blue colors */
 .folderCard {
 --folder-color: #4A90E2;
 position: relative;
+display: block;
 cursor: pointer;
 transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 height: 100%;
+
+/* PENTING: Hapus semua styling default link */
+text-decoration: none !important;
+color: inherit !important;
+outline: none;
+}
+
+/* Pastikan tidak ada underline di semua state */
+.folderCard:link,
+.folderCard:visited,
+.folderCard:hover,
+.folderCard:active,
+.folderCard:focus {
+text-decoration: none !important;
+color: inherit !important;
+outline: none;
 }
 
 .folderCard:hover {
@@ -126,6 +181,7 @@ color: white;
 margin: 0;
 line-height: 1.3;
 text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+text-decoration: none !important; /* PENTING */
 }
 
 .folderSubtitle {
@@ -134,6 +190,7 @@ font-weight: 500;
 color: rgba(255, 255, 255, 0.85);
 margin: 0;
 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+text-decoration: none !important; /* PENTING */
 }
 
 /* Stats Badge */
@@ -141,11 +198,9 @@ text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 display: flex;
 gap: 0.5rem;
 margin-top: 0.25rem;
-color: white;
 }
 
 .statBadge {
-color: white;
 display: inline-block;
 padding: 0.35rem 0.75rem;
 background: rgba(255, 255, 255, 0.25);
@@ -156,6 +211,7 @@ font-weight: 600;
 color: white;
 border: 1px solid rgba(255, 255, 255, 0.2);
 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+text-decoration: none !important; /* PENTING */
 }
 
 /* Arrow Indicator */
@@ -171,9 +227,7 @@ border-radius: 50%;
 display: flex;
 align-items: center;
 justify-content: center;
-font-size: 1.25rem;
 color: white;
-font-weight: 700;
 transition: all 0.3s ease;
 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
@@ -183,25 +237,54 @@ background: rgba(255, 255, 255, 0.3);
 transform: translateX(4px);
 }
 
-/* Grid Layout */
+/* Grid Layout dengan Padding yang Proporsional */
 .folderGrid {
 display: grid;
-grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 gap: 1.5rem;
-padding: 1rem 0;
+padding: 0;
+margin: 0;
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+/* ============================================
+RESPONSIVE DESIGN
+============================================ */
+
+/* Large Desktop */
+@media (min-width: 1400px) {
+.folderContainer {
+padding: 0 var(--spacing-2xl);
+}
+
 .folderGrid {
-grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+gap: 2rem;
+}
+}
+
+/* Desktop */
+@media (max-width: 1200px) {
+.folderSection {
+padding: 100px var(--spacing-lg) var(--spacing-2xl);
+}
+
+.folderGrid {
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 gap: 1.25rem;
 }
 }
 
-@media (max-width: 768px) {
+/* Tablet */
+@media (max-width: 1024px) {
+.folderSection {
+padding: 90px var(--spacing-md) var(--spacing-xl);
+}
+
+.folderContainer {
+padding: 0 var(--spacing-md);
+}
+
 .folderGrid {
-grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 gap: 1rem;
 }
 
@@ -225,14 +308,26 @@ font-size: 1.75rem;
 }
 }
 
-@media (max-width: 480px) {
+/* Mobile Landscape dan Small Tablet */
+@media (max-width: 768px) {
+.folderSection {
+padding: 80px var(--spacing-md) var(--spacing-lg);
+}
+
+/* LAYOUT 2 KOLOM untuk Mobile */
 .folderGrid {
-grid-template-columns: 1fr;
+grid-template-columns: repeat(2, 1fr);
 gap: 1rem;
 }
 
 .folderTab {
 width: 70%;
+height: 28px;
+padding: 0 0.75rem;
+}
+
+.folderLabel {
+font-size: 0.65rem;
 }
 
 .folderBody {
@@ -242,15 +337,119 @@ padding: 1rem;
 
 .folderTitle {
 font-size: 1rem;
+line-height: 1.2;
 }
 
 .folderSubtitle {
-font-size: 0.8rem;
+font-size: 0.75rem;
+line-height: 1.3;
+}
+
+.iconWrapper {
+width: 44px;
+height: 44px;
+}
+
+.iconText,
+.defaultIcon {
+font-size: 1.5rem;
+}
+
+.statBadge {
+font-size: 0.7rem;
+padding: 0.3rem 0.6rem;
+}
+
+.folderArrow {
+width: 28px;
+height: 28px;
+bottom: 1rem;
+right: 1rem;
 }
 }
 
-/* Hover Effects - Desktop Only */
-@media (hover: hover) {
+/* Small Mobile (Portrait) */
+@media (max-width: 480px) {
+.folderSection {
+padding: 70px var(--spacing-sm) var(--spacing-md);
+}
+
+.folderContainer {
+padding: 0 var(--spacing-sm);
+}
+
+/* Tetap 2 kolom tapi dengan gap lebih kecil */
+.folderGrid {
+gap: 0.75rem;
+}
+
+.folderHeader {
+margin-bottom: var(--spacing-lg);
+}
+
+.folderTab {
+width: 75%;
+height: 26px;
+}
+
+.folderBody {
+min-height: 130px;
+padding: 0.875rem;
+}
+
+.folderContent {
+gap: 0.75rem;
+}
+
+.folderTitle {
+font-size: 0.9rem;
+}
+
+.folderSubtitle {
+font-size: 0.7rem;
+}
+
+.iconWrapper {
+width: 40px;
+height: 40px;
+}
+
+.iconText,
+.defaultIcon {
+font-size: 1.35rem;
+}
+}
+
+/* Extra Small Mobile */
+@media (max-width: 360px) {
+.folderGrid {
+gap: 0.5rem;
+}
+
+.folderBody {
+padding: 0.75rem;
+min-height: 120px;
+}
+
+.folderTitle {
+font-size: 0.85rem;
+}
+
+.iconWrapper {
+width: 36px;
+height: 36px;
+}
+
+.iconText,
+.defaultIcon {
+font-size: 1.25rem;
+}
+}
+
+/* ============================================
+HOVER EFFECTS - Desktop Only
+============================================ */
+@media (hover: hover) and (pointer: fine) {
 .folderCard::before {
 content: '';
 position: absolute;
@@ -273,13 +472,51 @@ opacity: 1;
 }
 }
 
-/* Focus State for Accessibility */
+/* ============================================
+ACCESSIBILITY
+============================================ */
+
+/* Focus State */
 .folderCard:focus-visible {
-outline: 3px solid rgba(255, 255, 255, 0.5);
+outline: 3px solid rgba(255, 255, 255, 0.6);
 outline-offset: 4px;
+border-radius: 12px;
 }
 
-/* Animation */
+/* Remove focus outline pada mouse click */
+.folderCard:focus:not(:focus-visible) {
+outline: none;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+.folderCard {
+border: 2px solid currentColor;
+}
+
+.folderTitle,
+.folderSubtitle {
+text-shadow: none;
+}
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+.folderCard,
+.folderCard *,
+.iconWrapper {
+animation: none !important;
+transition: none !important;
+}
+
+.folderCard:hover {
+transform: none;
+}
+}
+
+/* ============================================
+STAGGER ANIMATION
+============================================ */
 @keyframes slideIn {
 from {
 opacity: 0;
@@ -295,7 +532,7 @@ transform: translateY(0);
 animation: slideIn 0.4s ease-out;
 }
 
-/* Stagger animation for multiple cards */
+/* Stagger untuk multiple cards */
 .folderCard:nth-child(1) { animation-delay: 0.05s; }
 .folderCard:nth-child(2) { animation-delay: 0.1s; }
 .folderCard:nth-child(3) { animation-delay: 0.15s; }
@@ -303,8 +540,14 @@ animation: slideIn 0.4s ease-out;
 .folderCard:nth-child(5) { animation-delay: 0.25s; }
 .folderCard:nth-child(6) { animation-delay: 0.3s; }
 .folderCard:nth-child(7) { animation-delay: 0.35s; }
-.folderCard:nth-child(8) { animation-delay: 0.4s; }
-.folderCard:nth-child(9) { animation-delay: 0.45s; }
-.folderCard:nth-child(10) { animation-delay: 0.5s; }
-.folderCard:nth-child(11) { animation-delay: 0.55s; }
-.folderCard:nth-child(12) { animation-delay: 0.6s; }
+
+/* Print Styles */
+@media print {
+.folderCard:hover {
+transform: none;
+}
+
+.folderArrow {
+display: none;
+}
+}

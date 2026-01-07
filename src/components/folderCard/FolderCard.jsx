@@ -1,79 +1,80 @@
-// FolderCard.jsx
-import React from 'react';
-import styles from './FolderCard.module.css';
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
+import styles from './FolderCard.module.css';
 
-// Demo Component
-export default function UTBKFolderDemo({data,tipe,}) {
-
-    const FolderCard = ({ 
-    title, 
-    subtitle, 
-    icon, 
-    color = '#4A90E2', 
-    questionCount, 
-    href
-    }) => {
-    return (
-    <Link
-        to={href}
-        className={styles.folderCard}
-        style={{ '--folder-color': color, textDecoration: 'none', color: 'inherit' }}
-        tabIndex={0}
-    >
-        <div className={styles.folderTab}>
-        <div className={styles.folderLabel}>{title}</div>
-        </div>
-        <div className={styles.folderBody}>
-        <div className={styles.folderContent}>
-            <div className={styles.iconWrapper}>
-            {icon ? (
-                <span className={styles.iconText}>{icon}</span>
-            ) : (
-                <div className={styles.defaultIcon}>📁</div>
-            )}
-            </div>
-            
-            <div className={styles.folderInfo}>
-            <h3 className={styles.folderTitle}>{title}</h3>
-            {subtitle && <p className={styles.folderSubtitle}>{subtitle}</p>}
-            
-            {questionCount && (
-                <div className={styles.folderStats}>
-                <span className={styles.statBadge}>
-                    {questionCount} {tipe}
-                </span>
-                </div>
-            )} 
-            </div>
+// Individual Folder Card Component
+const FolderCard = memo(({ 
+title, 
+subtitle, 
+icon, 
+color = '#4A90E2', 
+questionCount, 
+href,
+tipe
+}) => {
+return (
+<Link
+    to={href}
+    className={styles.folderCard}
+    style={{ '--folder-color': color }}
+    aria-label={`${title} - ${questionCount} ${tipe}`}
+>
+    <div className={styles.folderTab}>
+    <div className={styles.folderLabel}>{title}</div>
+    </div>
+    
+    <div className={styles.folderBody}>
+    <div className={styles.folderContent}>
+        <div className={styles.iconWrapper}>
+        {icon ? (
+            <span className={styles.iconText} role="img" aria-label={title}>
+            {icon}
+            </span>
+        ) : (
+            <div className={styles.defaultIcon}>📁</div>
+        )}
         </div>
         
-        <div className={styles.folderArrow}>→</div>
+        <div className={styles.folderInfo}>
+        <h3 className={styles.folderTitle}>{title}</h3>
+        {subtitle && <p className={styles.folderSubtitle}>{subtitle}</p>}
+        
+        {questionCount !== undefined && (
+            <div className={styles.folderStats}>
+            <span className={styles.statBadge}>
+                {questionCount} {tipe}
+            </span>
+            </div>
+        )}
         </div>
-    </Link>
-    );
-    };
+    </div>
+    
+    <div className={styles.folderArrow} aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M6 3L11 8L6 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+    </div>
+    </div>
+</Link>
+);
+});
 
+FolderCard.displayName = 'FolderCard';
+
+// Main component that renders the grid
+function UTBKFolderDemo({ data, tipe }) {
 return (
-<div style={{ padding: '2rem', minHeight: '100vh' }}>
-    <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-    <header style={{ marginBottom: '2rem', textAlign: 'center' }}>
-        <h1 style={{ 
-        fontSize: '2.5rem', 
-        fontWeight: '800', 
-        color: '#2c3e50',
-        marginBottom: '0.5rem'
-        }}>
+<div className={styles.folderSection}>
+    <div className={styles.folderContainer}>
+    <header className={styles.folderHeader}>
+        <h1 className={styles.folderHeaderTitle}>
         {tipe} Subtes UTBK 2026
         </h1>
-        <p style={{ 
-        fontSize: '1.1rem', 
-        color: '#7f8c8d' 
-        }}>
+        <p className={styles.folderHeaderSubtitle}>
         Pilih subtes untuk memulai belajar
         </p>
     </header>
-
+    
     <div className={styles.folderGrid}>
         {data.map((subtest) => (
         <FolderCard
@@ -84,6 +85,7 @@ return (
             color={subtest.color}
             questionCount={subtest.questionCount}
             href={subtest.href}
+            tipe={tipe}
         />
         ))}
     </div>
@@ -91,3 +93,5 @@ return (
 </div>
 );
 }
+
+export default memo(UTBKFolderDemo);

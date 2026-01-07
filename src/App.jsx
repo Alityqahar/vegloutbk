@@ -21,6 +21,7 @@ import LatsolPPU from './pages/subtest/ppu/latsol';
 import MateriPPU from './pages/subtest/ppu/materi';
 import MateriPU from './pages/subtest/pu/materi';
 import LatsolPU from './pages/subtest/pu/latsol';
+import FeedbackPage from './pages/feedback/Feedback';
 
 function App() {
   return (
@@ -102,6 +103,11 @@ function App() {
         <Route path="/check-email" element={<CheckEmail />} />
         <Route path="/auth-required" element={<AuthRequired />} />
         <Route path="/need-login" element={<NeedLogin />} />
+        <Route path="/feedback" element={
+          <RequireAuth>
+            <FeedbackPage />
+          </RequireAuth>
+        } />
       </Routes>
     </>
   )

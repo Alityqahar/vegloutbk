@@ -1,282 +1,562 @@
+/* Section Container */
 .soalSection {
 width: 100%;
+max-width: 1400px;
 margin: 0 auto;
-padding: 100px 50px;
+padding: 120px var(--spacing-xl) var(--spacing-3xl);
 }
 
+/* Header */
 .soalSectionHeader {
 display: flex;
-align-items: center;
+align-items: flex-start;
 justify-content: space-between;
-gap: 1rem;
-margin-bottom: 2rem;
+gap: var(--spacing-lg);
+margin-bottom: var(--spacing-2xl);
 }
 
 .soalSectionTitle {
-font-size: 2rem;
-font-weight: 800;
-color: #222;
+font-size: var(--font-size-3xl);
+font-weight: var(--font-weight-extrabold);
+color: var(--color-text-primary);
 letter-spacing: -1px;
+margin: 0;
 }
 
+.soalSectionSubtitle {
+font-size: var(--font-size-base);
+color: var(--color-text-muted);
+margin-top: var(--spacing-xs);
+}
+
+/* Add Button */
 .addBtn {
-background: #007bff;
-color: #fff;
-border: none;
-border-radius: 50%;
-width: 44px;
-height: 44px;
-font-size: 2rem;
-font-weight: 700;
 display: flex;
 align-items: center;
 justify-content: center;
+width: 48px;
+height: 48px;
+background: var(--color-primary);
+color: white;
+border: none;
+border-radius: var(--border-radius-lg);
 cursor: pointer;
-box-shadow: 0 2px 8px rgba(0, 123, 255, 0.10);
-transition: background 0.2s, box-shadow 0.2s;
-outline: none;
+box-shadow: var(--shadow-md);
+transition: all var(--transition-base);
 }
 
-.addBtn:hover,
-.addBtn:focus {
-background: #0056b3;
-box-shadow: 0 4px 16px rgba(0, 123, 255, 0.18);
+.addBtn:hover {
+background: var(--color-primary-dark);
+box-shadow: var(--shadow-lg);
+transform: translateY(-2px) rotate(90deg);
 }
 
-.addIcon {
-text-align: center;
-font-size: 2rem;
-line-height: 1;
-font-weight: 700;
+.addBtn:active {
+transform: translateY(0) rotate(90deg);
+box-shadow: var(--shadow-sm);
 }
 
+/* Grid Layout */
 .soalGrid {
 display: grid;
-grid-template-columns: repeat(3, 1fr);
-gap: 1.5rem;
+grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+gap: var(--spacing-lg);
 width: 100%;
 }
 
+/* Soal Item Card */
 .soalItem {
 display: flex;
 flex-direction: column;
 justify-content: space-between;
-background: #fff;
-border-radius: 10px;
-box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-padding: 1.25rem 1.5rem;
-transition: box-shadow 0.2s;
-border: 1px solid #f0f0f0;
-gap: 1rem;
+background: var(--color-bg-primary);
+border-radius: var(--border-radius-lg);
+box-shadow: var(--shadow-sm);
+padding: var(--spacing-lg);
+transition: all var(--transition-base);
+border: 1px solid var(--color-border-light);
+gap: var(--spacing-lg);
 min-width: 0;
+animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
 }
 
 .soalItem:hover {
-box-shadow: 0 4px 20px rgba(0, 123, 255, 0.10);
-border-color: #e0eaff;
+box-shadow: var(--shadow-lg);
+border-color: var(--color-primary-light);
+transform: translateY(-4px);
 }
 
+/* Soal Info */
 .soalInfo {
-flex: 1 1 0;
+flex: 1;
 min-width: 0;
 }
 
 .soalTitle {
-font-size: 1.1rem;
-font-weight: 700;
-color: #222;
-margin-bottom: 0.25rem;
-text-overflow: ellipsis;
+font-size: var(--font-size-lg);
+font-weight: var(--font-weight-bold);
+color: var(--color-text-primary);
+margin: 0 0 var(--spacing-sm) 0;
 overflow: hidden;
-white-space: nowrap;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 2;
+-webkit-box-orient: vertical;
+line-height: var(--line-height-tight);
 }
 
 .soalDesc {
-font-size: 0.97rem;
-color: #666;
-opacity: 0.85;
-/* tampilkan multiline, tidak dipotong */
-white-space: pre-line;
-overflow-wrap: break-word;
-word-break: break-word;
-margin-top: 0.5rem;
+font-size: var(--font-size-base);
+color: var(--color-text-secondary);
+line-height: var(--line-height-relaxed);
+margin: 0;
+overflow: hidden;
+text-overflow: ellipsis;
+display: -webkit-box;
+-webkit-line-clamp: 3;
+-webkit-box-orient: vertical;
+}
+
+/* Actions */
+.soalActions {
+display: flex;
+gap: var(--spacing-sm);
+flex-wrap: wrap;
 }
 
 .soalBtn {
-flex-shrink: 0;
-padding: 0.55rem 1.2rem;
-background: #007bff;
-color: #fff;
-border-radius: 6px;
+flex: 1;
+min-width: max-content;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: var(--spacing-xs);
+padding: var(--spacing-sm) var(--spacing-md);
+border-radius: var(--border-radius-md);
 text-decoration: none;
-font-weight: 600;
-font-size: 0.97rem;
-transition: background 0.2s;
+font-weight: var(--font-weight-semibold);
+font-size: var(--font-size-base);
+transition: all var(--transition-base);
 border: none;
-outline: none;
-box-shadow: 0 2px 8px rgba(0, 123, 255, 0.08);
 cursor: pointer;
-display: inline-block;
-margin-top: 1rem;
+box-shadow: var(--shadow-xs);
+}
+
+.soalBtnEdit {
+background: var(--color-primary);
+color: white;
+}
+
+.soalBtnEdit:hover {
+background: var(--color-primary-dark);
+box-shadow: var(--shadow-md);
+transform: translateY(-1px);
+}
+
+.soalBtnView {
+background: var(--color-secondary);
+color: white;
+}
+
+.soalBtnView:hover {
+background: #5a6268;
+box-shadow: var(--shadow-md);
+transform: translateY(-1px);
+}
+
+/* Empty State */
+.emptyState {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+padding: var(--spacing-3xl) var(--spacing-xl);
 text-align: center;
+color: var(--color-text-muted);
+min-height: 400px;
 }
 
-.soalBtn:hover,
-.soalBtn:focus {
-background: #0056b3;
-color: #fff;
+.emptyState svg {
+color: var(--color-border);
+margin-bottom: var(--spacing-lg);
 }
 
-/* Modal Styles */
-.modalBackdrop {
-position: fixed;
-inset: 0;
-background: rgba(30, 40, 60, 0.25);
-z-index: 8000;
+.emptyState h3 {
+font-size: var(--font-size-xl);
+font-weight: var(--font-weight-bold);
+color: var(--color-text-secondary);
+margin-bottom: var(--spacing-sm);
+}
+
+.emptyState p {
+font-size: var(--font-size-base);
+color: var(--color-text-muted);
+}
+
+/* Loading Skeleton */
+.skeleton {
+pointer-events: none;
+position: relative;
+overflow: hidden;
+}
+
+.skeleton::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(
+90deg,
+transparent,
+rgba(255, 255, 255, 0.5),
+transparent
+);
+animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+.skeletonText {
+height: 20px;
+background: var(--color-border-light);
+border-radius: var(--border-radius-sm);
+margin-bottom: var(--spacing-sm);
+}
+
+/* Centered Message */
+.centered {
 display: flex;
 align-items: center;
 justify-content: center;
-animation: fadeInModal 0.2s;
+min-height: 400px;
+font-size: var(--font-size-lg);
+color: var(--color-text-muted);
 }
 
-@keyframes fadeInModal {
-from {
-opacity: 0;
+/* ==================== MODAL STYLES ==================== */
+
+/* Modal Backdrop */
+.modalBackdrop {
+position: fixed;
+inset: 0;
+background: rgba(30, 40, 60, 0.6);
+backdrop-filter: blur(4px);
+z-index: var(--z-modal-backdrop);
+display: flex;
+align-items: center;
+justify-content: center;
+padding: var(--spacing-lg);
+animation: fadeIn 0.2s ease;
 }
 
-to {
-opacity: 1;
-}
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
 }
 
+/* Modal Content */
 .modalContent {
-background: #fff;
-border-radius: 14px;
-box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-padding: 2rem 2.2rem 1.5rem;
-min-width: 320px;
-max-width: 95vw;
-width: 400px;
+background: var(--color-bg-primary);
+border-radius: var(--border-radius-xl);
+box-shadow: var(--shadow-2xl);
+padding: var(--spacing-2xl);
+width: 100%;
+max-width: 500px;
 position: relative;
-animation: popInModal 0.2s;
+animation: slideUp 0.3s ease;
+max-height: 90vh;
+overflow-y: auto;
 }
 
-@keyframes popInModal {
+@keyframes slideUp {
 from {
-transform: scale(0.95);
 opacity: 0;
+transform: translateY(20px) scale(0.95);
 }
-
 to {
-transform: scale(1);
 opacity: 1;
+transform: translateY(0) scale(1);
 }
 }
 
+/* Close Button */
+.modalClose {
+position: absolute;
+top: var(--spacing-lg);
+right: var(--spacing-lg);
+width: 32px;
+height: 32px;
+display: flex;
+align-items: center;
+justify-content: center;
+background: var(--color-bg-secondary);
+border: none;
+border-radius: 50%;
+font-size: 24px;
+line-height: 1;
+color: var(--color-text-secondary);
+cursor: pointer;
+transition: all var(--transition-base);
+}
+
+.modalClose:hover {
+background: var(--color-danger);
+color: white;
+transform: rotate(90deg);
+}
+
+/* Modal Title */
 .modalTitle {
-font-size: 1.3rem;
-font-weight: 700;
-margin-bottom: 1.2rem;
-color: #222;
-text-align: center;
+font-size: var(--font-size-2xl);
+font-weight: var(--font-weight-bold);
+color: var(--color-text-primary);
+margin: 0 0 var(--spacing-xl) 0;
+padding-right: var(--spacing-2xl);
 }
 
+/* Modal Form */
 .modalForm {
 display: flex;
 flex-direction: column;
-gap: 1rem;
+gap: var(--spacing-lg);
 }
 
+.formGroup {
+display: flex;
+flex-direction: column;
+gap: var(--spacing-sm);
+}
+
+.formLabel {
+font-size: var(--font-size-base);
+font-weight: var(--font-weight-semibold);
+color: var(--color-text-primary);
+}
+
+/* Input Fields */
 .input,
 .textarea {
 width: 100%;
-padding: 0.7rem 1rem;
-border-radius: 6px;
-border: 1px solid #d0d0d0;
-font-size: 1rem;
+padding: var(--spacing-md);
+border-radius: var(--border-radius-md);
+border: 2px solid var(--color-border);
+font-size: var(--font-size-base);
 font-family: inherit;
-margin-top: 0.3rem;
-background: #f8fafd;
-resize: none;
+background: var(--color-bg-secondary);
+transition: all var(--transition-base);
+color: var(--color-text-primary);
 }
 
 .input:focus,
 .textarea:focus {
-border-color: #007bff;
+border-color: var(--color-primary);
+background: var(--color-bg-primary);
+box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
 outline: none;
-background: #fff;
+}
+
+.input:disabled,
+.textarea:disabled {
+opacity: 0.6;
+cursor: not-allowed;
 }
 
 .textarea {
-min-height: 80px;
-max-height: 200px;
+min-height: 100px;
+resize: vertical;
+line-height: var(--line-height-relaxed);
 }
 
+/* File Input */
+.fileInputWrapper {
+position: relative;
+}
+
+.fileInput {
+width: 100%;
+padding: var(--spacing-md);
+border: 2px dashed var(--color-border);
+border-radius: var(--border-radius-md);
+background: var(--color-bg-secondary);
+cursor: pointer;
+transition: all var(--transition-base);
+font-size: var(--font-size-base);
+}
+
+.fileInput:hover {
+border-color: var(--color-primary);
+background: var(--color-bg-primary);
+}
+
+.fileInput:focus {
+border-color: var(--color-primary);
+box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+outline: none;
+}
+
+.fileName {
+display: block;
+margin-top: var(--spacing-sm);
+font-size: var(--font-size-sm);
+color: var(--color-text-secondary);
+font-style: italic;
+}
+
+/* Modal Actions */
 .modalActions {
 display: flex;
 justify-content: flex-end;
-gap: 1rem;
-margin-top: 1rem;
+gap: var(--spacing-md);
+margin-top: var(--spacing-lg);
+padding-top: var(--spacing-lg);
+border-top: 1px solid var(--color-border-light);
+}
+
+.modalBtnCancel,
+.modalBtnSubmit {
+padding: var(--spacing-sm) var(--spacing-xl);
+border-radius: var(--border-radius-md);
+font-weight: var(--font-weight-semibold);
+font-size: var(--font-size-base);
+cursor: pointer;
+transition: all var(--transition-base);
+border: none;
+display: inline-flex;
+align-items: center;
+gap: var(--spacing-sm);
 }
 
 .modalBtnCancel {
-background: #f0f0f0;
-color: #333;
-border: none;
-border-radius: 6px;
-padding: 0.6rem 1.2rem;
-font-weight: 600;
-cursor: pointer;
-transition: background 0.2s;
+background: var(--color-bg-secondary);
+color: var(--color-text-primary);
+border: 2px solid var(--color-border);
 }
 
 .modalBtnCancel:hover {
-background: #e0e0e0;
+background: var(--color-bg-tertiary);
+border-color: var(--color-border);
 }
 
 .modalBtnSubmit {
-background: #007bff;
-color: #fff;
-border: none;
-border-radius: 6px;
-padding: 0.6rem 1.2rem;
-font-weight: 600;
-cursor: pointer;
-transition: background 0.2s;
+background: var(--color-primary);
+color: white;
+box-shadow: var(--shadow-sm);
 }
 
 .modalBtnSubmit:hover {
-background: #0056b3;
+background: var(--color-primary-dark);
+box-shadow: var(--shadow-md);
+transform: translateY(-1px);
 }
 
-/* Responsive */
+.modalBtnSubmit:active {
+transform: translateY(0);
+}
+
+.modalBtnCancel:disabled,
+.modalBtnSubmit:disabled {
+opacity: 0.6;
+cursor: not-allowed;
+transform: none !important;
+}
+
+/* Spinner */
+.spinner {
+width: 16px;
+height: 16px;
+border: 2px solid rgba(255, 255, 255, 0.3);
+border-radius: 50%;
+border-top-color: white;
+animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+to { transform: rotate(360deg); }
+}
+
+/* ==================== RESPONSIVE ==================== */
+
 @media (max-width: 1024px) {
 .soalGrid {
-grid-template-columns: repeat(2, 1fr);
-gap: 1.2rem;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: var(--spacing-md);
 }
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
+.soalSection {
+padding: 100px var(--spacing-lg) var(--spacing-2xl);
+}
+
+.soalSectionHeader {
+flex-direction: column;
+gap: var(--spacing-md);
+}
+
 .soalSectionTitle {
-font-size: 1.3rem;
-margin-bottom: 1.2rem;
+font-size: var(--font-size-2xl);
 }
 
 .soalGrid {
 grid-template-columns: 1fr;
-gap: 1rem;
+gap: var(--spacing-md);
 }
 
 .soalItem {
-padding: 1rem;
+padding: var(--spacing-md);
 }
 
-.soalTitle {
-font-size: 1rem;
+.modalContent {
+padding: var(--spacing-lg);
+max-width: 100%;
 }
 
-.soalDesc {
-font-size: 0.92rem;
+.modalTitle {
+font-size: var(--font-size-xl);
+}
+
+.modalActions {
+flex-direction: column-reverse;
+}
+
+.modalBtnCancel,
+.modalBtnSubmit {
+width: 100%;
+justify-content: center;
+}
+}
+
+@media (max-width: 480px) {
+.soalSectionTitle {
+font-size: var(--font-size-xl);
+}
+
+.addBtn {
+width: 44px;
+height: 44px;
+}
+
+.soalActions {
+flex-direction: column;
+}
+
+.soalBtn {
+width: 100%;
 }
 }

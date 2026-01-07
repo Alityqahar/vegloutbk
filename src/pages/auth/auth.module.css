@@ -84,6 +84,7 @@ font-style: none;
 .authBtn:hover,
 .authBtn:focus {
 background: #0056b3;
+color: white;
 }
 
 .authError {
