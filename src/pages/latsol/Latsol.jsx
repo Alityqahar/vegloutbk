@@ -1,18 +1,18 @@
 import Navbar from "../../components/Navbar/Navbar"
 import styles from './Latsol.module.css'
 import FolderCard from '../../components/folderCard/FolderCard'
+import { useEffect, useState } from "react"
+import { supabase } from '../../lib/supabase'
 
-export default function Materi() {
-
-        const subtestDataMateri = [
+const SUBTESTS = [
     {
         id: 1,
         title: 'Penalaran Umum',
         subtitle: 'Logika & Analisis',
         icon: '🧠',
         color: '#FF6B6B',
-        questionCount: 30,
-        href: '/subtes/penalaran-umum'
+        href: '/latsol/pu',
+        table: 'latsol_pu'
     },
     {
         id: 2,
@@ -20,8 +20,8 @@ export default function Materi() {
         subtitle: 'Matematika Dasar',
         icon: '📊',
         color: '#4ECDC4',
-        questionCount: 25,
-        href: '/subtes/pengetahuan-kuantitatif'
+        href: '/latsol/pk',
+        table: 'latsol_pk'
     },
     {
         id: 3,
@@ -29,17 +29,17 @@ export default function Materi() {
         subtitle: 'Penguasaan penulisan dengan kaidah yang benar',
         icon: '📖',
         color: '#45B7D1',
-        questionCount: 20,
-        href: '/subtes/pemahaman-baca-menulis'
+        href: '/latsol/pbm',
+        table: 'latsol_pbm'
     },
     {
         id: 4,
-        title: 'Pengetahuan Umum',
+        title: 'Pengetahuan & Pemahaman Umum',
         subtitle: 'Pengetahuan & Pemahaman',
         icon: '🌍',
         color: '#96CEB4',
-        questionCount: 20,
-        href: '/subtes/pengetahuan-umum'
+        href: '/latsol/ppu',
+        table: 'latsol_ppu'
     },
     {
         id: 5,
@@ -47,8 +47,8 @@ export default function Materi() {
         subtitle: 'Kemampuan memahami teks Indonesia',
         icon: '🇮🇩',
         color: '#E74C3C',
-        questionCount: 20,
-        href: '/subtes/literasi-indonesia'
+        href: '/latsol/lbi',
+        table: 'latsol_lbi'
     },
     {
         id: 6,
@@ -56,8 +56,8 @@ export default function Materi() {
         subtitle: 'Kemampuan memahami teks Inggris',
         icon: '🇬🇧',
         color: '#3498DB',
-        questionCount: 20,
-        href: '/materi/lbe'
+        href: '/latsol/lbe',
+        table: 'latsol_lbe'
     },
     {
         id: 7,
@@ -65,10 +65,34 @@ export default function Materi() {
         subtitle: 'Kemampuan berpikir logis matematis',
         icon: '🔢',
         color: '#9B59B6',
-        questionCount: 20,
-        href: '/subtes/penalaran-matematika'
+        href: '/latsol/pm',
+        table: 'latsol_pm'
     }
-    ];
+];
+
+export default function Latsol() {
+    const [counts, setCounts] = useState({});
+
+    useEffect(() => {
+        let isMounted = true;
+        async function fetchCounts() {
+            const newCounts = {};
+            for (const subtest of SUBTESTS) {
+                const { count, error } = await supabase
+                    .from(subtest.table)
+                    .select('*', { count: 'exact', head: true });
+                newCounts[subtest.table] = error ? 0 : count;
+            }
+            if (isMounted) setCounts(newCounts);
+        }
+        fetchCounts();
+        return () => { isMounted = false; }
+    }, []);
+
+    const subtestDataMateri = SUBTESTS.map(subtest => ({
+        ...subtest,
+        questionCount: counts[subtest.table] ?? 0
+    }));
 
     return(
         <>

@@ -21,7 +21,12 @@ if (open) {
 if (!open) return null;
 
 const handleSubmit = (e) => {
-e.preventDefault();
+e.preventDefault(); // Penting agar form tidak reload!
+// Validasi file size (misal max 5MB)
+if (pdfFile && pdfFile.size > 5 * 1024 * 1024) {
+    alert('Ukuran file maksimal 5MB');
+    return;
+}
 onSubmit({
     id: initialData?.id,
     title,
@@ -115,31 +120,33 @@ try {
     setSaving(true);
     let filePath = payload.file_path;
 
-    // Logic Upload ke Folder sesuai Nama Tabel agar tidak campur
+    // Perbaiki path upload: hanya user.id sebagai folder utama
     if (payload.pdfFile) {
-    const fileExt = payload.pdfFile.name.split('.').pop();
-    const fileName = `${user.id}/${Date.now()}.${fileExt}`;
-    const { data, error } = await supabase.storage
-        .from('documents') // Gunakan 1 bucket utama 'documents'
-        .upload(`${table}/${fileName}`, payload.pdfFile); // Sub-folder sesuai tabel
+        const fileExt = payload.pdfFile.name.split('.').pop();
+        // Nama file: <table>_<timestamp>.<ext>
+        const fileName = `${table}_${Date.now()}.${fileExt}`;
+        const uploadPath = `${user.id}/${fileName}`;
+        const { data, error } = await supabase.storage
+            .from('documents')
+            .upload(uploadPath, payload.pdfFile);
 
-    if (error) throw error;
-    filePath = data.path;
+        if (error) throw error;
+        filePath = data.path;
     }
 
     const rawData = {
-    title: payload.title,
-    description: payload.description,
-    file_path: filePath,
-    user_id: user.id,
+        title: payload.title,
+        description: payload.description,
+        file_path: filePath,
+        user_id: user.id,
     };
 
     if (payload.id) {
-    await supabase.from(table).update(rawData).eq('id', payload.id);
-    setItems(prev => prev.map(i => i.id === payload.id ? { ...i, ...rawData } : i));
+        await supabase.from(table).update(rawData).eq('id', payload.id);
+        setItems(prev => prev.map(i => i.id === payload.id ? { ...i, ...rawData } : i));
     } else {
-    const { data } = await supabase.from(table).insert(rawData).select().single();
-    setItems(prev => [data, ...prev]);
+        const { data } = await supabase.from(table).insert(rawData).select().single();
+        setItems(prev => [data, ...prev]);
     }
 
     Swal.fire('Berhasil', 'Data materi berhasil diperbarui', 'success');
@@ -153,6 +160,8 @@ try {
 };
 
 if (!user) return <div className={styles.centered}>Silakan login terlebih dahulu</div>;
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 
 return (
 <div className={styles.soalSection}>
@@ -181,7 +190,7 @@ return (
                 Edit
             </button>
             <a 
-                href={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/documents/${item.file_path}`}
+                href={`${supabaseUrl}/storage/v1/object/public/documents/${item.file_path}`}
                 target="_blank" 
                 rel="noreferrer" 
                 className={styles.soalBtn}
@@ -196,7 +205,7 @@ return (
     )}
 
     {items.length === 0 && !loading && (
-    <p style={{ textAlign: 'center', color: '#888', marginTop: '2rem' }}>Belum ada materi di subtest ini.</p>
+    <p style={{ textAlign: 'center', color: '#888', marginTop: '2rem' }}>Belum ada {title} di sini.</p>
     )}
 
     <AddEditSoalModal

@@ -141,9 +141,11 @@ text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 display: flex;
 gap: 0.5rem;
 margin-top: 0.25rem;
+color: white;
 }
 
 .statBadge {
+color: white;
 display: inline-block;
 padding: 0.35rem 0.75rem;
 background: rgba(255, 255, 255, 0.25);

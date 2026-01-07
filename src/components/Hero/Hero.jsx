@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 const backgrounds = [
-'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=1600&q=80', // Studying
-'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=1600&q=80', // Books
-'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80', // University
+    '/ui1.jpg',
+    '/ui2.jpg',
+    '/itb1.jpg',
+    '/itb2.jpg',
+    '/unair1.jpg'
 ];
 
 const UTBK_DATE = new Date('2026-03-30T07:00:00');
@@ -467,23 +469,14 @@ return (
         
         <div>
         <h1 className="hero-title">
-            Wujudkan Mimpimu di PTN Impian
+            Wujudkan Mimpi di PTN Impian
         </h1>
         <p className="hero-subtitle">
-            Perjalanan menuju kesuksesan dimulai dari sekarang
+            Katanya mau bantai-bantai UTBK
         </p>
         </div>
 
         <CircularCountdown {...timeLeft} />
-
-        <div className="hero-cta">
-        <button className="cta-button cta-primary">
-            <a href="/materi" style={{textDecoration:'none', color:'white'}}>Mulai Belajar</a>
-        </button>
-        <button className="cta-button cta-secondary">
-            <a href="/latsol" style={{textDecoration:'none', color:'white'}}>Latihan Soal</a>
-        </button>
-        </div>
     </div>
     </section>
 </>

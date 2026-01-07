@@ -44,7 +44,7 @@ export default function UTBKFolderDemo({data,tipe,}) {
                     {questionCount} {tipe}
                 </span>
                 </div>
-            )}
+            )} 
             </div>
         </div>
         
