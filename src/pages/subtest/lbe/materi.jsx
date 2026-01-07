@@ -5,7 +5,7 @@ export default function MateriLBE() {
     return(
         <>
         <Navbar />
-        <SoalList />
+        <SoalList table="materi_lbe" title="Materi LBE" />
         </>
     )
-}
+}   
