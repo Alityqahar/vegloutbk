@@ -140,38 +140,48 @@ return (
 AddEditSoalModal.displayName = 'AddEditSoalModal';
 
 /* ================= SOAL ITEM COMPONENT ================= */
-const SoalItem = memo(({ item, onEdit, supabaseUrl }) => (
-<div className={styles.soalItem}>
-<div className={styles.soalInfo}>
-    <h4 className={styles.soalTitle}>{item.title}</h4>
-    <p className={styles.soalDesc}>{item.description}</p>
-</div>
-<div className={styles.soalActions}>
-    <button 
-    className={`${styles.soalBtn} ${styles.soalBtnEdit}`}
-    onClick={() => onEdit(item)}
-    aria-label={`Edit ${item.title}`}
-    >
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M11.3337 2.00004C11.5089 1.82494 11.7169 1.68605 11.9457 1.59129C12.1745 1.49653 12.4197 1.44775 12.667 1.44775C12.9144 1.44775 13.1596 1.49653 13.3884 1.59129C13.6172 1.68605 13.8252 1.82494 14.0003 2.00004C14.1754 2.17513 14.3143 2.38314 14.4091 2.61195C14.5038 2.84075 14.5526 3.08591 14.5526 3.33337C14.5526 3.58084 14.5038 3.826 14.4091 4.0548C14.3143 4.28361 14.1754 4.49162 14.0003 4.66671L5.00033 13.6667L1.33366 14.6667L2.33366 11L11.3337 2.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-    Edit
-    </button>
-    <a 
-    href={`${supabaseUrl}/storage/v1/object/public/documents/${item.file_path}`}
-    target="_blank" 
-    rel="noreferrer noopener"
-    className={`${styles.soalBtn} ${styles.soalBtnView}`}
-    aria-label={`Buka PDF ${item.title}`}
-    >
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-        <path d="M1.33334 8.00004C1.33334 8.00004 3.33334 3.33337 8.00001 3.33337C12.6667 3.33337 14.6667 8.00004 14.6667 8.00004C14.6667 8.00004 12.6667 12.6667 8.00001 12.6667C3.33334 12.6667 1.33334 8.00004 1.33334 8.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-    Buka PDF
-    </a>
-</div>
-</div>
+const SoalItem = memo(({ item, onEdit, supabaseUrl, canEdit, currentUserId }) => (
+    <div className={styles.soalItem}>
+        <div className={styles.soalInfo}>
+        <h4 className={styles.soalTitle}>{item.title}</h4>
+        <p className={styles.soalDesc}>{item.description}</p>
+        
+        {/* Tambahkan info pemilik jika bukan milik user saat ini */}
+        {item.user_id !== currentUserId && (
+            <span className={styles.ownerBadge}>
+            📤 Dibagikan oleh pengguna lain
+            </span>
+        )}
+        </div>
+        <div className={styles.soalActions}>
+        {/* Tombol Edit hanya muncul jika user adalah pemilik */}
+        {canEdit && (
+            <button 
+            className={`${styles.soalBtn} ${styles.soalBtnEdit}`}
+            onClick={() => onEdit(item)}
+            aria-label={`Edit ${item.title}`}
+            >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M11.3337 2.00004C11.5089 1.82494 11.7169 1.68605 11.9457 1.59129C12.1745 1.49653 12.4197 1.44775 12.667 1.44775C12.9144 1.44775 13.1596 1.49653 13.3884 1.59129C13.6172 1.68605 13.8252 1.82494 14.0003 2.00004C14.1754 2.17513 14.3143 2.38314 14.4091 2.61195C14.5038 2.84075 14.5526 3.08591 14.5526 3.33337C14.5526 3.58084 14.5038 3.826 14.4091 4.0548C14.3143 4.28361 14.1754 4.49162 14.0003 4.66671L5.00033 13.6667L1.33366 14.6667L2.33366 11L11.3337 2.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Edit
+            </button>
+        )}
+        <a 
+            href={`${supabaseUrl}/storage/v1/object/public/documents/${item.file_path}`}
+            target="_blank" 
+            rel="noreferrer noopener"
+            className={`${styles.soalBtn} ${styles.soalBtnView}`}
+            aria-label={`Buka PDF ${item.title}`}
+        >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M1.33334 8.00004C1.33334 8.00004 3.33334 3.33337 8.00001 3.33337C12.6667 3.33337 14.6667 8.00004 14.6667 8.00004C14.6667 8.00004 12.6667 12.6667 8.00001 12.6667C3.33334 12.6667 1.33334 8.00004 1.33334 8.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Buka PDF
+        </a>
+        </div>
+    </div>
 ));
 
 SoalItem.displayName = 'SoalItem';
@@ -198,31 +208,31 @@ return () => { mounted = false; };
 }, []);
 
 // Fetch data
-useEffect(() => {
-if (!user || !table) return;
+    useEffect(() => {
+    if (!user || !table) return;
 
-let mounted = true;
+    let mounted = true;
 
-const fetchData = async () => {
-    setLoading(true);
-    const { data, error } = await supabase
-    .from(table)
-    .select('*')
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false });
-    
-    if (mounted && !error) {
-    setItems(data || []);
-    }
-    if (mounted) {
-    setLoading(false);
-    }
-};
+    const fetchData = async () => {
+        setLoading(true);
+        const { data, error } = await supabase
+        .from(table)
+        .select('*')
+        // .eq('user_id', user.id)  ← DIHAPUS agar semua data tampil
+        .order('created_at', { ascending: false });
+        
+        if (mounted && !error) {
+        setItems(data || []);
+        }
+        if (mounted) {
+        setLoading(false);
+        }
+    };
 
-fetchData();
+    fetchData();
 
-return () => { mounted = false; };
-}, [user, table]);
+    return () => { mounted = false; };
+    }, [user, table]);
 
 const handleAddOrEdit = useCallback(async (payload) => {
 try {
@@ -334,14 +344,16 @@ return (
     </div>
     ) : (
     <div className={styles.soalGrid}>
-        {items.map((item) => (
+    {items.map((item) => (
         <SoalItem
-            key={item.id}
-            item={item}
-            onEdit={handleOpenModal}
-            supabaseUrl={supabaseUrl}
+        key={item.id}
+        item={item}
+        onEdit={handleOpenModal}
+        supabaseUrl={supabaseUrl}
+        canEdit={item.user_id === user.id}  // ✅ Tambahkan prop ini
+        currentUserId={user.id}              // ✅ Tambahkan prop ini
         />
-        ))}
+    ))}
     </div>
     )}
     
