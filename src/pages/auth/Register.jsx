@@ -3,7 +3,7 @@ import styles from './auth.module.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import Swal from 'sweetalert2';
-import { LoadingScreen } from '../../components/Navbar/Navbar';
+import Navbar, { LoadingScreen } from '../../components/Navbar/Navbar';
 
 export default function Register() {
 const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
@@ -79,7 +79,7 @@ setLoading(false);
 Swal.fire({
     icon: 'success',
     title: 'Registrasi Berhasil',
-    text: 'Silakan cek email untuk verifikasi akun.',
+    text: 'Silakan cek spam untuk verifikasi akun.',
     confirmButtonColor: '#007bff'
 }).then(() => {
     navigate('/check-email');
