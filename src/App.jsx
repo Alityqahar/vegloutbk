@@ -22,6 +22,8 @@ import MateriPPU from './pages/subtest/ppu/materi';
 import MateriPU from './pages/subtest/pu/materi';
 import LatsolPU from './pages/subtest/pu/latsol';
 import FeedbackPage from './pages/feedback/Feedback';
+import LatsolPBM from './pages/subtest/pbm/latsol';
+import MateriPBM from './pages/subtest/pbm/materi';
 
 function App() {
   return (
@@ -96,6 +98,16 @@ function App() {
         <Route path="/latsol/pu" element={
           <RequireAuth>
             <LatsolPU />
+          </RequireAuth>
+        } />
+        <Route path="/materi/pbm" element={
+          <RequireAuth>
+            <MateriPBM />
+          </RequireAuth>
+        } />
+        <Route path="/latsol/pbm" element={
+          <RequireAuth>
+            <LatsolPBM />
           </RequireAuth>
         } />
         <Route path="/login" element={<Login />} />

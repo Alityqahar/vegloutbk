@@ -140,48 +140,70 @@ return (
 AddEditSoalModal.displayName = 'AddEditSoalModal';
 
 /* ================= SOAL ITEM COMPONENT ================= */
-const SoalItem = memo(({ item, onEdit, supabaseUrl, canEdit, currentUserId }) => (
-    <div className={styles.soalItem}>
-        <div className={styles.soalInfo}>
-        <h4 className={styles.soalTitle}>{item.title}</h4>
-        <p className={styles.soalDesc}>{item.description}</p>
-        
-        {/* Tambahkan info pemilik jika bukan milik user saat ini */}
-        {item.user_id !== currentUserId && (
-            <span className={styles.ownerBadge}>
-            📤 Dibagikan oleh pengguna lain
-            </span>
-        )}
-        </div>
-        <div className={styles.soalActions}>
-        {/* Tombol Edit hanya muncul jika user adalah pemilik */}
-        {canEdit && (
-            <button 
-            className={`${styles.soalBtn} ${styles.soalBtnEdit}`}
-            onClick={() => onEdit(item)}
-            aria-label={`Edit ${item.title}`}
-            >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M11.3337 2.00004C11.5089 1.82494 11.7169 1.68605 11.9457 1.59129C12.1745 1.49653 12.4197 1.44775 12.667 1.44775C12.9144 1.44775 13.1596 1.49653 13.3884 1.59129C13.6172 1.68605 13.8252 1.82494 14.0003 2.00004C14.1754 2.17513 14.3143 2.38314 14.4091 2.61195C14.5038 2.84075 14.5526 3.08591 14.5526 3.33337C14.5526 3.58084 14.5038 3.826 14.4091 4.0548C14.3143 4.28361 14.1754 4.49162 14.0003 4.66671L5.00033 13.6667L1.33366 14.6667L2.33366 11L11.3337 2.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Edit
-            </button>
-        )}
-        <a 
-            href={`${supabaseUrl}/storage/v1/object/public/documents/${item.file_path}`}
-            target="_blank" 
-            rel="noreferrer noopener"
-            className={`${styles.soalBtn} ${styles.soalBtnView}`}
-            aria-label={`Buka PDF ${item.title}`}
-        >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M1.33334 8.00004C1.33334 8.00004 3.33334 3.33337 8.00001 3.33337C12.6667 3.33337 14.6667 8.00004 14.6667 8.00004C14.6667 8.00004 12.6667 12.6667 8.00001 12.6667C3.33334 12.6667 1.33334 8.00004 1.33334 8.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            Buka PDF
-        </a>
-        </div>
-    </div>
+const SoalItem = memo(({ item, onEdit, onDelete, supabaseUrl, canEdit, currentUserId }) => (
+<div className={styles.soalItem}>
+<div className={styles.soalInfo}>
+    <h4 className={styles.soalTitle}>{item.title}</h4>
+    <p className={styles.soalDesc}>{item.description}</p>
+    
+    {/* Badge untuk menampilkan username pemilik */}
+    {item.user_id !== currentUserId && item.username ? (
+    <span className={styles.ownerBadge}>
+        👤 Diunggah oleh: <strong>{item.username}</strong>
+    </span>
+    ) : item.user_id === currentUserId ? (
+    <span className={styles.myFileBadge}>
+        ✨ Materi Anda
+    </span>
+    ) : null}
+</div>
+<div className={styles.soalActions}>
+    {/* Tombol Edit hanya muncul jika user adalah pemilik */}
+    {canEdit && (
+    <button 
+        className={`${styles.soalBtn} ${styles.soalBtnEdit}`}
+        onClick={() => onEdit(item)}
+        aria-label={`Edit ${item.title}`}
+    >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M11.3337 2.00004C11.5089 1.82494 11.7169 1.68605 11.9457 1.59129C12.1745 1.49653 12.4197 1.44775 12.667 1.44775C12.9144 1.44775 13.1596 1.49653 13.3884 1.59129C13.6172 1.68605 13.8252 1.82494 14.0003 2.00004C14.1754 2.17513 14.3143 2.38314 14.4091 2.61195C14.5038 2.84075 14.5526 3.08591 14.5526 3.33337C14.5526 3.58084 14.5038 3.826 14.4091 4.0548C14.3143 4.28361 14.1754 4.49162 14.0003 4.66671L5.00033 13.6667L1.33366 14.6667L2.33366 11L11.3337 2.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        Edit
+    </button>
+    )}
+    
+    {/* Tombol Delete hanya muncul jika user adalah pemilik */}
+    {canEdit && (
+    <button 
+        className={`${styles.soalBtn} ${styles.soalBtnDelete}`}
+        onClick={() => onDelete(item)}
+        aria-label={`Hapus ${item.title}`}
+    >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4H3.33333H14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M5.33333 4.00004V2.66671C5.33333 2.31309 5.47381 1.97395 5.72386 1.7239C5.97391 1.47385 6.31304 1.33337 6.66667 1.33337H9.33333C9.68696 1.33337 10.0261 1.47385 10.2761 1.7239C10.5262 1.97395 10.6667 2.31309 10.6667 2.66671V4.00004M12.6667 4.00004V13.3334C12.6667 13.687 12.5262 14.0261 12.2761 14.2762C12.0261 14.5262 11.687 14.6667 11.3333 14.6667H4.66667C4.31304 14.6667 3.97391 14.5262 3.72386 14.2762C3.47381 14.0261 3.33333 13.687 3.33333 13.3334V4.00004H12.6667Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M6.66667 7.33337V11.3334" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M9.33333 7.33337V11.3334" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        Hapus
+    </button>
+    )}
+    
+    <a 
+    href={`${supabaseUrl}/storage/v1/object/public/documents/${item.file_path}`}
+    target="_blank" 
+    rel="noreferrer noopener"
+    className={`${styles.soalBtn} ${styles.soalBtnView}`}
+    aria-label={`Buka PDF ${item.title}`}
+    >
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M1.33334 8.00004C1.33334 8.00004 3.33334 3.33337 8.00001 3.33337C12.6667 3.33337 14.6667 8.00004 14.6667 8.00004C14.6667 8.00004 12.6667 12.6667 8.00001 12.6667C3.33334 12.6667 1.33334 8.00004 1.33334 8.00004Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M8 10C9.10457 10 10 9.10457 10 8C10 6.89543 9.10457 6 8 6C6.89543 6 6 6.89543 6 8C6 9.10457 6.89543 10 8 10Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+    Buka PDF
+    </a>
+</div>
+</div>
 ));
 
 SoalItem.displayName = 'SoalItem';
@@ -207,32 +229,41 @@ supabase.auth.getUser().then(({ data }) => {
 return () => { mounted = false; };
 }, []);
 
-// Fetch data
-    useEffect(() => {
-    if (!user || !table) return;
+// Fetch data dengan JOIN ke tabel profiles untuk mendapatkan username
+useEffect(() => {
+if (!user || !table) return;
 
-    let mounted = true;
+let mounted = true;
 
-    const fetchData = async () => {
-        setLoading(true);
-        const { data, error } = await supabase
-        .from(table)
-        .select('*')
-        // .eq('user_id', user.id)  ← DIHAPUS agar semua data tampil
-        .order('created_at', { ascending: false });
-        
-        if (mounted && !error) {
-        setItems(data || []);
-        }
-        if (mounted) {
-        setLoading(false);
-        }
-    };
+const fetchData = async () => {
+    setLoading(true);
+    
+    // Query dengan LEFT JOIN ke profiles untuk mendapatkan username
+    const { data, error } = await supabase
+    .from(table)
+    .select(`
+        *,
+        profiles(username)
+    `)
+    .order('created_at', { ascending: false });
+    
+    if (mounted && !error) {
+    // Flatten data agar username langsung tersedia
+    const flattenedData = data.map(item => ({
+        ...item,
+        username: item.profiles?.username || 'Pengguna'
+    }));
+    setItems(flattenedData || []);
+    }
+    if (mounted) {
+    setLoading(false);
+    }
+};
 
-    fetchData();
+fetchData();
 
-    return () => { mounted = false; };
-    }, [user, table]);
+return () => { mounted = false; };
+}, [user, table]);
 
 const handleAddOrEdit = useCallback(async (payload) => {
 try {
@@ -263,11 +294,38 @@ try {
     if (payload.id) {
     // Update
     await supabase.from(table).update(rawData).eq('id', payload.id);
-    setItems(prev => prev.map(i => i.id === payload.id ? { ...i, ...rawData } : i));
+    
+    // Fetch username untuk item yang di-update
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', user.id)
+        .single();
+    
+    setItems(prev => prev.map(i => 
+        i.id === payload.id 
+        ? { ...i, ...rawData, username: profile?.username || 'Pengguna' } 
+        : i
+    ));
     } else {
     // Insert
-    const { data } = await supabase.from(table).insert(rawData).select().single();
-    setItems(prev => [data, ...prev]);
+    const { data: insertedData } = await supabase
+        .from(table)
+        .insert(rawData)
+        .select()
+        .single();
+    
+    // Fetch username untuk item baru
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('username')
+        .eq('id', user.id)
+        .single();
+    
+    setItems(prev => [
+        { ...insertedData, username: profile?.username || 'Pengguna' }, 
+        ...prev
+    ]);
     }
     
     Swal.fire({
@@ -291,6 +349,61 @@ try {
     setSaving(false);
 }
 }, [table, user]);
+
+// Handler untuk Delete dengan konfirmasi
+const handleDelete = useCallback(async (item) => {
+const result = await Swal.fire({
+    title: 'Hapus Materi?',
+    html: `Apakah Anda yakin ingin menghapus:<br/><strong>${item.title}</strong>?<br/><br/>File PDF juga akan dihapus dari storage.`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#e74c3c',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Ya, Hapus!',
+    cancelButtonText: 'Batal',
+    reverseButtons: true
+});
+
+if (result.isConfirmed) {
+    try {
+    // 1. Hapus file dari storage
+    const { error: storageError } = await supabase.storage
+        .from('documents')
+        .remove([item.file_path]);
+
+    if (storageError) {
+        console.error('Error deleting file from storage:', storageError);
+        // Lanjutkan delete dari database meskipun file sudah tidak ada
+    }
+
+    // 2. Hapus data dari database
+    const { error: dbError } = await supabase
+        .from(table)
+        .delete()
+        .eq('id', item.id);
+
+    if (dbError) throw dbError;
+
+    // 3. Update state untuk menghapus item dari UI
+    setItems(prev => prev.filter(i => i.id !== item.id));
+
+    Swal.fire({
+        icon: 'success',
+        title: 'Terhapus!',
+        text: 'Materi berhasil dihapus',
+        timer: 1500,
+        showConfirmButton: false
+    });
+    } catch (err) {
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal Menghapus',
+        text: err.message || 'Terjadi kesalahan saat menghapus',
+        confirmButtonColor: '#007bff'
+    });
+    }
+}
+}, [table]);
 
 const handleOpenModal = useCallback((data = null) => {
 setEditData(data);
@@ -344,16 +457,17 @@ return (
     </div>
     ) : (
     <div className={styles.soalGrid}>
-    {items.map((item) => (
+        {items.map((item) => (
         <SoalItem
-        key={item.id}
-        item={item}
-        onEdit={handleOpenModal}
-        supabaseUrl={supabaseUrl}
-        canEdit={item.user_id === user.id}  // ✅ Tambahkan prop ini
-        currentUserId={user.id}              // ✅ Tambahkan prop ini
+            key={item.id}
+            item={item}
+            onEdit={handleOpenModal}
+            onDelete={handleDelete}
+            supabaseUrl={supabaseUrl}
+            canEdit={item.user_id === user.id}
+            currentUserId={user.id}
         />
-    ))}
+        ))}
     </div>
     )}
     

@@ -573,3 +573,75 @@ flex-direction: column;
 width: 100%;
 }
 }
+
+/* ==================== TOMBOL DELETE ==================== */
+
+.soalBtnDelete {
+background: var(--color-danger);
+color: white;
+}
+
+.soalBtnDelete:hover {
+background: #c0392b;
+box-shadow: var(--shadow-md);
+transform: translateY(-1px);
+}
+
+.soalBtnDelete:active {
+transform: translateY(0);
+box-shadow: var(--shadow-sm);
+}
+
+/* ==================== BADGE STYLES ==================== */
+
+/* Badge untuk konten dari user lain */
+.ownerBadge {
+display: inline-block;
+margin-top: var(--spacing-sm);
+padding: var(--spacing-xs) var(--spacing-md);
+background: linear-gradient(135deg, rgba(78, 205, 196, 0.1), rgba(69, 183, 209, 0.1));
+border: 1.5px solid rgba(78, 205, 196, 0.4);
+border-radius: var(--border-radius-md);
+font-size: var(--font-size-xs);
+font-weight: var(--font-weight-semibold);
+color: #2c9a8f;
+animation: fadeIn 0.3s ease;
+}
+
+.ownerBadge strong {
+color: #1e7a6f;
+font-weight: var(--font-weight-bold);
+}
+
+/* Badge untuk konten milik user sendiri */
+.myFileBadge {
+display: inline-block;
+margin-top: var(--spacing-sm);
+padding: var(--spacing-xs) var(--spacing-md);
+background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 152, 0, 0.15));
+border: 1.5px solid rgba(255, 193, 7, 0.5);
+border-radius: var(--border-radius-md);
+font-size: var(--font-size-xs);
+font-weight: var(--font-weight-bold);
+color: #f57c00;
+animation: fadeIn 0.3s ease;
+}
+
+/* ==================== RESPONSIVE UPDATE ==================== */
+
+@media (max-width: 768px) {
+.soalActions {
+flex-direction: column;
+gap: var(--spacing-xs);
+}
+
+.soalBtn {
+width: 100%;
+}
+
+.ownerBadge,
+.myFileBadge {
+font-size: 0.65rem;
+padding: 0.25rem 0.5rem;
+}
+}

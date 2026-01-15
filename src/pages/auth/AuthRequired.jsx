@@ -13,7 +13,7 @@ export default function AuthRequired() {
                         Anda harus login untuk mengakses halaman ini.
                     </p>
                     <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
-                        <Link to="/login" className={styles.authBtn}>
+                        <Link to="/login" className={styles.authBtn} style={{color:'white'}}>
                             Login
                         </Link>
                     </div>
