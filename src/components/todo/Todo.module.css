@@ -1,0 +1,236 @@
+.container{
+  max-width: 880px;
+  margin: 0 auto;
+  background: var(--color-bg-primary);
+  border-radius: var(--border-radius-xl);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border-light);
+}
+
+.header{
+  margin-bottom: 1rem;
+}
+
+.title{
+  font-size: var(--font-size-2xl);
+  color: var(--color-text-primary);
+  margin: 0 0 0.25rem 0;
+  font-weight: var(--font-weight-extrabold);
+}
+
+.subtitle{
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+.form{
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.row{
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.input, .select, .textarea{
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border-radius: var(--border-radius-md);
+  border: 1.5px solid var(--color-border);
+  background: var(--color-bg-secondary);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+}
+
+.select{
+  width: 140px;
+}
+
+.textarea{
+  resize: vertical;
+  min-height: 72px;
+}
+
+.fieldInline{
+  display:flex;
+  flex-direction:column;
+  gap:0.35rem;
+  flex:1;
+}
+
+.actions{
+  display:flex;
+  gap:0.5rem;
+  align-items:center;
+}
+
+.btnPrimary{
+  background: var(--color-primary);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: var(--border-radius-md);
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  cursor: pointer;
+}
+
+.btnGhost{
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 0.8rem;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+}
+
+.listSection{
+  margin-top: 0.5rem;
+}
+
+.list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.item{
+  border-radius: var(--border-radius-md);
+  padding: 0.75rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-light);
+  transition: box-shadow 0.18s ease, transform 0.15s ease;
+}
+
+.item:hover{
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.itemTop{
+  display:flex;
+  justify-content:space-between;
+  gap:0.75rem;
+  align-items:flex-start;
+}
+
+.itemTitle{
+  margin:0;
+  font-size: var(--font-size-lg);
+  color: var(--color-text-primary);
+}
+
+.meta{
+  display:flex;
+  gap:0.5rem;
+  align-items:center;
+  margin-top: 0.35rem;
+}
+
+.badge{
+  background: rgba(0,0,0,0.06);
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: var(--font-size-xs);
+  text-transform: capitalize;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.timeLeft{
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+}
+
+.controls{
+  display:flex;
+  gap:0.35rem;
+  align-items:center;
+}
+
+.iconBtn{
+  background: transparent;
+  border: none;
+  padding: 0.35rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.iconBtn:hover{ background: var(--color-bg-primary); }
+
+.iconBtnDel{
+  background: transparent;
+  border: none;
+  padding: 0.35rem;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--color-danger);
+}
+
+.itemDesc{
+  margin: 0.5rem 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+/* progress */
+.progressWrap{ margin-top: 0.6rem; }
+.progressBar{
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(90deg,var(--color-bg-primary), var(--color-bg-secondary));
+  border-radius: 999px;
+  overflow:hidden;
+  border: 1px solid var(--color-border-light);
+}
+.progressInner{
+  height:100%;
+  background: linear-gradient(90deg,var(--color-primary), var(--color-primary-dark));
+  transition: width 0.7s ease;
+}
+
+/* states */
+.done{ opacity: 0.7; text-decoration: line-through; }
+.dueSoon{ box-shadow: 0 6px 18px rgba(255,165,0,0.08); border-color: rgba(255,165,0,0.25); }
+.overdue{ box-shadow: 0 6px 18px rgba(231,76,60,0.08); border-color: rgba(231,76,60,0.25); }
+
+/* visual indicator for due soon and overdue (small pulse) */
+.dueSoon::after,
+.overdue::after{
+  content: '';
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 8px;
+  transform-origin: center;
+  animation: pulseLight 2s infinite;
+  position: relative;
+  float: right;
+}
+.dueSoon::after{ background: rgba(255,165,0,0.95); box-shadow: 0 4px 12px rgba(255,165,0,0.12); }
+.overdue::after{ background: rgba(231,76,60,0.95); box-shadow: 0 4px 12px rgba(231,76,60,0.12); }
+
+@keyframes pulseLight {
+  0%{ transform: scale(1); opacity: 1; }
+  50%{ transform: scale(1.25); opacity: 0.7; }
+  100%{ transform: scale(1); opacity: 1; }
+}
+
+/* small utilities */
+.centered{ text-align:center; padding:1.2rem; color:var(--color-text-muted); }
+.empty{ text-align:center; padding:1.2rem; color:var(--color-text-muted); }
+
+/* responsive */
+@media (max-width:768px){
+  .row{ flex-direction: column; align-items: stretch; }
+  .select{ width:100%; }
+  .actions{ justify-content: flex-end; }
+}
