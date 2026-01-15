@@ -4,6 +4,7 @@ import FolderCard from '../../components/folderCard/FolderCard'
 import { useEffect, useState } from "react"
 import { supabase } from '../../lib/supabase'
 import { LoadingScreen } from '../../components/Navbar/Navbar'
+import { useLoadingDelay } from '../../lib/useLoadingDelay'
 
 const SUBTESTS = [
     {
@@ -73,12 +74,12 @@ const SUBTESTS = [
 
 export default function Materi() {
     const [counts, setCounts] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [dataReady, setDataReady] = useState(false);
+    const showLoading = useLoadingDelay(dataReady, 2000);
 
     useEffect(() => {
         let isMounted = true;
         async function fetchCounts() {
-            setLoading(true);
             const newCounts = {};
             for (const subtest of SUBTESTS) {
                 const { count, error } = await supabase
@@ -86,8 +87,10 @@ export default function Materi() {
                     .select('*', { count: 'exact', head: true });
                 newCounts[subtest.table] = error ? 0 : count;
             }
-            if (isMounted) setCounts(newCounts);
-            setLoading(false);
+            if (isMounted) {
+                setCounts(newCounts);
+                setDataReady(true);
+            }
         }
         fetchCounts();
         return () => { isMounted = false; }
@@ -100,9 +103,9 @@ export default function Materi() {
 
     return(
         <>
-            <LoadingScreen show={loading} />
+            <LoadingScreen show={showLoading} />
             <Navbar />
-            <div className={styles.container}>
+            <div className={`${styles.container} ${showLoading ? styles.fadeOut : styles.fadeIn}`}>
                 <FolderCard data={subtestDataMateri} tipe="Materi"/>
             </div>
         </>

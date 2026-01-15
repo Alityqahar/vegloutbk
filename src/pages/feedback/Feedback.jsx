@@ -3,12 +3,14 @@ import { supabase } from '../../lib/supabase';
 import Navbar, { LoadingScreen } from '../../components/Navbar/Navbar';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import { useLoadingDelay } from '../../lib/useLoadingDelay';
 
 export default function FeedbackPage() {
     const [user, setUser] = useState(null);
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [checking, setChecking] = useState(true);
+    const showLoadingScreen = useLoadingDelay(user !== null && !checking, 2000);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -64,7 +66,7 @@ export default function FeedbackPage() {
         }
     };
 
-    if (checking) return <LoadingScreen show={true} />;
+    if (checking || showLoadingScreen) return <LoadingScreen show={true} />;
     if (!user) return null;
 
     return (
@@ -79,7 +81,8 @@ export default function FeedbackPage() {
                 boxShadow: '0 4px 24px rgba(0,123,255,0.07)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '2rem'
+                gap: '2rem',
+                animation: 'fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)'
             }}>
                 <h2 style={{
                     fontWeight: 800,
@@ -135,6 +138,18 @@ export default function FeedbackPage() {
                     Terima Kasih Telah Memberikan Feedback.
                 </div>
             </div>
+            <style>{`
+              @keyframes fadeInUp {
+                from {
+                  opacity: 0;
+                  transform: translateY(20px);
+                }
+                to {
+                  opacity: 1;
+                  transform: translateY(0);
+                }
+              }
+            `}</style>
         </>
     );
 }

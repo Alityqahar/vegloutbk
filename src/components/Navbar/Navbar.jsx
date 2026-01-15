@@ -99,7 +99,7 @@ const UserDropdown = memo(({ username, onLogout }) => {
 
 UserDropdown.displayName = 'UserDropdown';
 
-// LoadingScreen component (global, reusable)
+// Enhanced LoadingScreen component
 export function LoadingScreen({ show = false }) {
   if (!show) return null;
   return (
@@ -107,36 +107,109 @@ export function LoadingScreen({ show = false }) {
       position: 'fixed',
       zIndex: 9999,
       inset: 0,
-      background: 'rgba(255,255,255,0.85)',
+      background: 'rgba(255,255,255,0.92)',
+      backdropFilter: 'blur(2px)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      transition: 'opacity 0.3s',
-      pointerEvents: 'all'
+      transition: 'opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+      opacity: show ? 1 : 0,
+      pointerEvents: show ? 'all' : 'none'
     }}>
       <div style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: 16
+        gap: 24,
+        animation: 'fadeInScale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
       }}>
+        {/* Animated spinner */}
         <div style={{
-          width: 56,
-          height: 56,
-          border: '6px solid #e0eaff',
-          borderTop: '6px solid #007bff',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
-        <div style={{
-          fontWeight: 700,
-          color: '#007bff',
-          fontSize: 18,
-          letterSpacing: 1
+          position: 'relative',
+          width: 64,
+          height: 64
         }}>
-          Memuat...
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '50%',
+            border: '4px solid #e0eaff',
+            animation: 'spin 3s linear infinite'
+          }} />
+          <div style={{
+            position: 'absolute',
+            inset: 8,
+            borderRadius: '50%',
+            border: '4px solid transparent',
+            borderTopColor: '#007bff',
+            borderRightColor: '#007bff',
+            animation: 'spin 1.5s linear infinite reverse'
+          }} />
         </div>
-        <style>{`@keyframes spin{to{transform:rotate(360deg);}}`}</style>
+
+        {/* Loading text */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 8
+        }}>
+          <div style={{
+            fontWeight: 700,
+            color: '#007bff',
+            fontSize: 18,
+            letterSpacing: 0.5
+          }}>
+            Memuat...
+          </div>
+          <div style={{
+            fontSize: 13,
+            color: '#888',
+            animation: 'pulse 2s ease-in-out infinite'
+          }}>
+            Siapkan konten terbaik untuk Anda
+          </div>
+        </div>
+
+        {/* Progress indicator */}
+        <div style={{
+          width: 200,
+          height: 4,
+          background: '#e0eaff',
+          borderRadius: 999,
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            height: '100%',
+            background: 'linear-gradient(90deg, #007bff, #4ecdc4)',
+            animation: 'loadingProgress 2s ease-in-out infinite'
+          }} />
+        </div>
+
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+          @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+          }
+          @keyframes fadeInScale {
+            from {
+              opacity: 0;
+              transform: scale(0.9);
+            }
+            to {
+              opacity: 1;
+              transform: scale(1);
+            }
+          }
+          @keyframes loadingProgress {
+            0% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+            100% { transform: translateX(100%); }
+          }
+        `}</style>
       </div>
     </div>
   );

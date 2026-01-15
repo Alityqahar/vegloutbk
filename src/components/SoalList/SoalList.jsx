@@ -3,6 +3,7 @@ import styles from './SoalList.module.css';
 import { supabase } from '../../lib/supabase';
 import Swal from 'sweetalert2';
 import { LoadingScreen } from '../Navbar/Navbar';
+import { useLoadingDelay } from '../../lib/useLoadingDelay';
 
 /* ================= MODAL COMPONENT ================= */
 const AddEditSoalModal = memo(({ open, onClose, onSubmit, initialData, loading }) => {
@@ -231,7 +232,8 @@ SoalItem.displayName = 'SoalItem';
 function SoalList({ table, title }) {
 const [user, setUser] = useState(null);
 const [items, setItems] = useState([]);
-const [loading, setLoading] = useState(true);
+const [dataReady, setDataReady] = useState(false);
+const showLoading = useLoadingDelay(dataReady, 2000);
 const [modalOpen, setModalOpen] = useState(false);
 const [editData, setEditData] = useState(null);
 const [saving, setSaving] = useState(false);
@@ -254,8 +256,6 @@ if (!user || !table) return;
 let mounted = true;
 
 const fetchData = async () => {
-    setLoading(true);
-    
     const { data, error } = await supabase
     .from(table)
     .select(`
@@ -267,7 +267,6 @@ const fetchData = async () => {
     if (error) {
     console.error('Error fetching data:', error);
     
-    // ✅ Handle error 400 (foreign key missing)
     if (error.code === 'PGRST116' || error.message.includes('foreign key')) {
         Swal.fire({
         icon: 'error',
@@ -280,7 +279,6 @@ const fetchData = async () => {
         });
     }
     
-    // Fallback: ambil data tanpa join jika error
     const { data: fallbackData } = await supabase
         .from(table)
         .select('*')
@@ -301,7 +299,7 @@ const fetchData = async () => {
     }
     
     if (mounted) {
-    setLoading(false);
+    setDataReady(true);
     }
 };
 
@@ -544,8 +542,8 @@ return (
 
 return (
 <>
-    <LoadingScreen show={loading} />
-    <div className={styles.soalSection}>
+    <LoadingScreen show={showLoading} />
+    <div className={`${styles.soalSection} ${showLoading ? styles.fadeOut : styles.fadeIn}`}>
     <header className={styles.soalSectionHeader}>
     <div>
         <h2 className={styles.soalSectionTitle}>{title}</h2>
@@ -564,7 +562,7 @@ return (
     </button>
     </header>
     
-    {loading ? (
+    {showLoading ? (
     <div className={styles.soalGrid}>
         {[...Array(6)].map((_, i) => (
         <div key={i} className={`${styles.soalItem} ${styles.skeleton}`}>
