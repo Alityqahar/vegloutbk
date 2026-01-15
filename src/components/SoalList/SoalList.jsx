@@ -24,12 +24,13 @@ if (open) {
 const handleSubmit = useCallback((e) => {
 e.preventDefault();
 
-// Validasi file size (max 5MB)
-if (pdfFile && pdfFile.size > 5 * 1024 * 1024) {
+// ✅ UPDATED: Validasi file size 20MB (bisa disesuaikan)
+const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
+if (pdfFile && pdfFile.size > MAX_FILE_SIZE) {
     Swal.fire({
     icon: 'warning',
     title: 'File Terlalu Besar',
-    text: 'Ukuran file maksimal 5MB',
+    text: `Ukuran file maksimal ${MAX_FILE_SIZE / (1024 * 1024)}MB`,
     confirmButtonColor: '#007bff'
     });
     return;
@@ -102,7 +103,9 @@ return (
             disabled={loading}
             />
             {pdfFile && (
-            <span className={styles.fileName}>{pdfFile.name}</span>
+            <span className={styles.fileName}>
+                {pdfFile.name} ({(pdfFile.size / (1024 * 1024)).toFixed(2)} MB)
+            </span>
             )}
         </div>
         </div>
@@ -146,7 +149,6 @@ const SoalItem = memo(({ item, onEdit, onDelete, supabaseUrl, canEdit, currentUs
     <h4 className={styles.soalTitle}>{item.title}</h4>
     <p className={styles.soalDesc}>{item.description}</p>
     
-    {/* Badge untuk menampilkan username pemilik */}
     {item.user_id !== currentUserId && item.username ? (
     <span className={styles.ownerBadge}>
         👤 Diunggah oleh: <strong>{item.username}</strong>
@@ -158,7 +160,6 @@ const SoalItem = memo(({ item, onEdit, onDelete, supabaseUrl, canEdit, currentUs
     ) : null}
 </div>
 <div className={styles.soalActions}>
-    {/* Tombol Edit hanya muncul jika user adalah pemilik */}
     {canEdit && (
     <button 
         className={`${styles.soalBtn} ${styles.soalBtnEdit}`}
@@ -172,7 +173,6 @@ const SoalItem = memo(({ item, onEdit, onDelete, supabaseUrl, canEdit, currentUs
     </button>
     )}
     
-    {/* Tombol Delete hanya muncul jika user adalah pemilik */}
     {canEdit && (
     <button 
         className={`${styles.soalBtn} ${styles.soalBtnDelete}`}
@@ -229,7 +229,6 @@ supabase.auth.getUser().then(({ data }) => {
 return () => { mounted = false; };
 }, []);
 
-// Fetch data dengan JOIN ke tabel profiles untuk mendapatkan username
 useEffect(() => {
 if (!user || !table) return;
 
@@ -238,7 +237,6 @@ let mounted = true;
 const fetchData = async () => {
     setLoading(true);
     
-    // Query dengan LEFT JOIN ke profiles untuk mendapatkan username
     const { data, error } = await supabase
     .from(table)
     .select(`
@@ -248,7 +246,6 @@ const fetchData = async () => {
     .order('created_at', { ascending: false });
     
     if (mounted && !error) {
-    // Flatten data agar username langsung tersedia
     const flattenedData = data.map(item => ({
         ...item,
         username: item.profiles?.username || 'Pengguna'
@@ -270,18 +267,39 @@ try {
     setSaving(true);
     let filePath = payload.file_path;
     
-    // Upload file jika ada
+    // ✅ FIXED: Upload ke folder public yang bisa diakses semua user
     if (payload.pdfFile) {
     const fileExt = payload.pdfFile.name.split('.').pop();
-    const fileName = `${table}_${Date.now()}.${fileExt}`;
-    const uploadPath = `${user.id}/${fileName}`;
+    const timestamp = Date.now();
+    const randomStr = Math.random().toString(36).substring(2, 8);
+    const fileName = `${table}_${timestamp}_${randomStr}.${fileExt}`;
+    
+    // ✅ PENTING: Upload ke folder 'public' bukan folder user pribadi
+    const uploadPath = `public/${table}/${fileName}`;
     
     const { data, error } = await supabase.storage
         .from('documents')
-        .upload(uploadPath, payload.pdfFile);
+        .upload(uploadPath, payload.pdfFile, {
+        cacheControl: '3600',
+        upsert: false
+        });
     
-    if (error) throw error;
+    if (error) {
+        // ✅ Handle error spesifik untuk file terlalu besar
+        if (error.message.includes('size')) {
+        throw new Error('File terlalu besar. Maksimal 20MB');
+        }
+        throw error;
+    }
+    
     filePath = data.path;
+    
+    // ✅ Hapus file lama jika edit
+    if (payload.file_path && payload.file_path !== filePath) {
+        await supabase.storage
+        .from('documents')
+        .remove([payload.file_path]);
+    }
     }
     
     const rawData = {
@@ -295,7 +313,6 @@ try {
     // Update
     await supabase.from(table).update(rawData).eq('id', payload.id);
     
-    // Fetch username untuk item yang di-update
     const { data: profile } = await supabase
         .from('profiles')
         .select('username')
@@ -315,7 +332,6 @@ try {
         .select()
         .single();
     
-    // Fetch username untuk item baru
     const { data: profile } = await supabase
         .from('profiles')
         .select('username')
@@ -350,7 +366,6 @@ try {
 }
 }, [table, user]);
 
-// Handler untuk Delete dengan konfirmasi
 const handleDelete = useCallback(async (item) => {
 const result = await Swal.fire({
     title: 'Hapus Materi?',
@@ -366,17 +381,14 @@ const result = await Swal.fire({
 
 if (result.isConfirmed) {
     try {
-    // 1. Hapus file dari storage
     const { error: storageError } = await supabase.storage
         .from('documents')
         .remove([item.file_path]);
 
     if (storageError) {
         console.error('Error deleting file from storage:', storageError);
-        // Lanjutkan delete dari database meskipun file sudah tidak ada
     }
 
-    // 2. Hapus data dari database
     const { error: dbError } = await supabase
         .from(table)
         .delete()
@@ -384,7 +396,6 @@ if (result.isConfirmed) {
 
     if (dbError) throw dbError;
 
-    // 3. Update state untuk menghapus item dari UI
     setItems(prev => prev.filter(i => i.id !== item.id));
 
     Swal.fire({
