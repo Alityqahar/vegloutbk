@@ -99,6 +99,49 @@ const UserDropdown = memo(({ username, onLogout }) => {
 
 UserDropdown.displayName = 'UserDropdown';
 
+// LoadingScreen component (global, reusable)
+export function LoadingScreen({ show = false }) {
+  if (!show) return null;
+  return (
+    <div style={{
+      position: 'fixed',
+      zIndex: 9999,
+      inset: 0,
+      background: 'rgba(255,255,255,0.85)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      transition: 'opacity 0.3s',
+      pointerEvents: 'all'
+    }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 16
+      }}>
+        <div style={{
+          width: 56,
+          height: 56,
+          border: '6px solid #e0eaff',
+          borderTop: '6px solid #007bff',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <div style={{
+          fontWeight: 700,
+          color: '#007bff',
+          fontSize: 18,
+          letterSpacing: 1
+        }}>
+          Memuat...
+        </div>
+        <style>{`@keyframes spin{to{transform:rotate(360deg);}}`}</style>
+      </div>
+    </div>
+  );
+}
+
 function Navbar() {
   const [user, setUser] = useState(null);
   const [username, setUsername] = useState('User');

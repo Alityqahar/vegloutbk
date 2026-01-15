@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styles from './auth.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/Navbar/Navbar';
 import { supabase } from '../../lib/supabase';
 import Swal from 'sweetalert2';
+import { LoadingScreen } from '../../components/Navbar/Navbar';
 
 export default function Register() {
 const [form, setForm] = useState({ name: '', email: '', password: '', confirm: '' });
@@ -88,6 +88,7 @@ Swal.fire({
 
 return (
 <>
+    <LoadingScreen show={loading} />
     <Navbar />
     <div className={styles.authWrapper}>
     <div className={styles.authCard}>

@@ -3,6 +3,7 @@ import styles from './Latsol.module.css'
 import FolderCard from '../../components/folderCard/FolderCard'
 import { useEffect, useState } from "react"
 import { supabase } from '../../lib/supabase'
+import { LoadingScreen } from '../../components/Navbar/Navbar'
 
 const SUBTESTS = [
     {
@@ -72,10 +73,12 @@ const SUBTESTS = [
 
 export default function Latsol() {
     const [counts, setCounts] = useState({});
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let isMounted = true;
         async function fetchCounts() {
+            setLoading(true);
             const newCounts = {};
             for (const subtest of SUBTESTS) {
                 const { count, error } = await supabase
@@ -84,6 +87,7 @@ export default function Latsol() {
                 newCounts[subtest.table] = error ? 0 : count;
             }
             if (isMounted) setCounts(newCounts);
+            setLoading(false);
         }
         fetchCounts();
         return () => { isMounted = false; }
@@ -96,6 +100,7 @@ export default function Latsol() {
 
     return(
         <>
+            <LoadingScreen show={loading} />
             <Navbar />
             <div className={styles.container}>
                 <FolderCard data={subtestDataMateri} tipe="Soal"/>

@@ -2,6 +2,7 @@ import { memo, useState, useRef, useEffect, useCallback } from 'react';
 import styles from './SoalList.module.css';
 import { supabase } from '../../lib/supabase';
 import Swal from 'sweetalert2';
+import { LoadingScreen } from '../Navbar/Navbar';
 
 /* ================= MODAL COMPONENT ================= */
 const AddEditSoalModal = memo(({ open, onClose, onSubmit, initialData, loading }) => {
@@ -542,7 +543,9 @@ return (
 }
 
 return (
-<div className={styles.soalSection}>
+<>
+    <LoadingScreen show={loading} />
+    <div className={styles.soalSection}>
     <header className={styles.soalSectionHeader}>
     <div>
         <h2 className={styles.soalSectionTitle}>{title}</h2>
@@ -602,6 +605,7 @@ return (
     loading={saving}
     />
 </div>
+</>
 );
 }
 

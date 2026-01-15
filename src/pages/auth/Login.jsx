@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './auth.module.css';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar, { LoadingScreen } from '../../components/Navbar/Navbar';
 import { supabase } from '../../lib/supabase';
 import Swal from 'sweetalert2';
 
@@ -53,6 +53,7 @@ Swal.fire({
 
 return (
 <>
+    <LoadingScreen show={loading} />
     <Navbar />
     <div className={styles.authWrapper}>
     <div className={styles.authCard}>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import Navbar from '../../components/Navbar/Navbar';
+import Navbar, { LoadingScreen } from '../../components/Navbar/Navbar';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ export default function FeedbackPage() {
     const [user, setUser] = useState(null);
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [checking, setChecking] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -17,6 +18,7 @@ export default function FeedbackPage() {
             if (mounted && !data?.user) {
                 navigate('/need-login', { replace: true });
             }
+            setChecking(false);
         });
         return () => { mounted = false; };
     }, [navigate]);
@@ -62,6 +64,7 @@ export default function FeedbackPage() {
         }
     };
 
+    if (checking) return <LoadingScreen show={true} />;
     if (!user) return null;
 
     return (

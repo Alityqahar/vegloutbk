@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useNavigate } from 'react-router-dom';
+import { LoadingScreen } from '../Navbar/Navbar';
 
 export default function RequireAuth({ children }) {
     const [checking, setChecking] = useState(true);
@@ -21,7 +22,7 @@ export default function RequireAuth({ children }) {
         return () => { mounted = false; };
     }, [navigate]);
 
-    if (checking) return <div style={{ textAlign: 'center', marginTop: '4rem' }}>Memeriksa autentikasi...</div>;
+    if (checking) return <LoadingScreen show={true} />;
     if (!user) return null; // Sudah redirect
 
     return children;
