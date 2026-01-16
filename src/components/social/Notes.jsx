@@ -2,7 +2,34 @@ import { memo, useState, useEffect, useCallback } from 'react';
 import styles from './social.module.css';
 import { supabase } from '../../lib/supabase';
 import Swal from 'sweetalert2';
+import PremiumUpgradeModal from '../PremiumUpgradeModal/PremiumUpgradeModal';
 
+// ==================== PREMIUM CTA BANNER ====================
+const PremiumBanner = memo(({ onUpgradeClick, onLoginClick }) => (
+  <div className={styles.premiumBanner}>
+    <div className={styles.bannerContent}>
+      <div className={styles.bannerIcon}>⭐</div>
+      <div className={styles.bannerText}>
+        <h4 className={styles.bannerTitle}>Fitur Premium</h4>
+        <p className={styles.bannerDesc}>
+          Bagikan notes dengan member lain dan akses penuh semua fitur eksklusif
+        </p>
+      </div>
+      <div className={styles.bannerActions}>
+        <button 
+          className={styles.bannerBtnPrimary}
+          onClick={onUpgradeClick}
+        >
+          Upgrade Sekarang
+        </button>
+      </div>
+    </div>
+  </div>
+));
+
+PremiumBanner.displayName = 'PremiumBanner';
+
+// ==================== NOTES MODAL ====================
 const NotesModal = memo(({ open, onClose, onSubmit, loading }) => {
   const [content, setContent] = useState('');
 
@@ -31,7 +58,9 @@ const NotesModal = memo(({ open, onClose, onSubmit, loading }) => {
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <button className={styles.modalClose} onClick={onClose}>×</button>
         <h3 className={styles.modalTitle}>Bagikan Notes</h3>
-        <p className={styles.modalSubtitle}>Note ini akan hilang setelah 24 jam</p>
+        <p style={{ fontSize: '0.9rem', color: '#666', margin: '0 0 1rem 0' }}>
+          Note ini akan hilang setelah 24 jam
+        </p>
         
         <form onSubmit={handleSubmit} className={styles.modalForm}>
           <textarea
@@ -65,11 +94,11 @@ const NotesModal = memo(({ open, onClose, onSubmit, loading }) => {
 
 NotesModal.displayName = 'NotesModal';
 
-// Helper function untuk menghitung waktu tersisa
+// ==================== HELPER FUNCTIONS ====================
 function getTimeRemaining(createdAt) {
   const now = new Date();
   const created = new Date(createdAt);
-  const expiresAt = new Date(created.getTime() + 24 * 60 * 60 * 1000); // 24 jam
+  const expiresAt = new Date(created.getTime() + 24 * 60 * 60 * 1000);
   const remaining = expiresAt - now;
 
   if (remaining <= 0) return null;
@@ -91,12 +120,12 @@ function getTimeAgo(date) {
   return date.toLocaleDateString();
 }
 
+// ==================== NOTE ITEM COMPONENT ====================
 const NoteItem = memo(({ note, onDelete, canDelete }) => {
   const createdAt = new Date(note.created_at);
   const timeAgo = getTimeAgo(createdAt);
   const remaining = getTimeRemaining(note.created_at);
 
-  // Jika remaining null, note sudah expired (jangan render)
   if (!remaining) return null;
 
   const { hours, minutes } = remaining;
@@ -136,13 +165,15 @@ const NoteItem = memo(({ note, onDelete, canDelete }) => {
 
 NoteItem.displayName = 'NoteItem';
 
-export default memo(function Notes({ userId }) {
+// ==================== MAIN NOTES COMPONENT ====================
+export default memo(function Notes({ userId, canAdd, requiresLogin }) {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dataReady, setDataReady] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [premiumModalOpen, setPremiumModalOpen] = useState(false);
 
   // Get current user info
   useEffect(() => {
@@ -155,13 +186,12 @@ export default memo(function Notes({ userId }) {
     return () => { mounted = false; };
   }, []);
 
-  // Fetch notes - TANPA relasi, ambil username dari metadata
+  // Fetch notes
   useEffect(() => {
     let mounted = true;
 
     const fetchNotes = async () => {
       try {
-        // Query hanya tabel notes, tanpa relasi
         const { data, error } = await supabase
           .from('notes')
           .select('*')
@@ -174,7 +204,6 @@ export default memo(function Notes({ userId }) {
         }
 
         if (mounted && data) {
-          // Untuk setiap note, fetch username dari auth.users (atau simpan di metadata)
           const notesWithUsername = await Promise.all(
             data.map(async (note) => {
               try {
@@ -189,7 +218,6 @@ export default memo(function Notes({ userId }) {
                   username: profile?.username || 'Pengguna'
                 };
               } catch {
-                // Fallback jika profile tidak ada
                 return {
                   ...note,
                   username: 'Pengguna'
@@ -266,8 +294,41 @@ export default memo(function Notes({ userId }) {
     return () => clearInterval(interval);
   }, []);
 
+  // ==================== EVENT HANDLERS ====================
+
+  const handleAddNoteClick = useCallback(() => {
+    if (requiresLogin) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Login Diperlukan',
+        text: 'Silakan login terlebih dahulu untuk menambahkan notes',
+        confirmButtonColor: '#007bff'
+      });
+      return;
+    }
+
+    if (!canAdd) {
+      setPremiumModalOpen(true);
+      return;
+    }
+
+    setModalOpen(true);
+  }, [canAdd, requiresLogin]);
+
   const handleAddNote = useCallback(async (content) => {
     if (!userId || !currentUser) return;
+
+    // Double-check role pada client-side
+    if (!canAdd) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Akses Ditolak',
+        text: 'Hanya member premium yang dapat menambahkan notes',
+        confirmButtonColor: '#007bff'
+      });
+      return;
+    }
+
     setSubmitting(true);
 
     try {
@@ -278,7 +339,6 @@ export default memo(function Notes({ userId }) {
 
       if (error) throw error;
 
-      // Ambil username dari metadata atau profiles
       const username = 
         currentUser.user_metadata?.full_name || 
         currentUser.email?.split('@')[0] || 
@@ -313,7 +373,7 @@ export default memo(function Notes({ userId }) {
     } finally {
       setSubmitting(false);
     }
-  }, [userId, currentUser]);
+  }, [userId, currentUser, canAdd]);
 
   const handleDeleteNote = useCallback(async (id) => {
     const result = await Swal.fire({
@@ -355,12 +415,22 @@ export default memo(function Notes({ userId }) {
       <div className={styles.notesSectionHeader}>
         <h3 className={styles.sectionTitle}>Notes</h3>
         <button
-          className={styles.addNotesBtn}
-          onClick={() => setModalOpen(true)}
+          className={`${styles.addNotesBtn} ${!canAdd && !requiresLogin ? styles.addNotesBtnDisabled : ''}`}
+          onClick={handleAddNoteClick}
+          disabled={!canAdd && !requiresLogin}
+          title={!canAdd && !requiresLogin ? 'Hanya member premium yang dapat menambahkan notes' : undefined}
         >
           + Bagikan
         </button>
       </div>
+
+      {/* Premium Banner untuk user biasa */}
+      {!canAdd && !requiresLogin && (
+        <PremiumBanner 
+          onUpgradeClick={() => setPremiumModalOpen(true)}
+          onLoginClick={() => window.location.href = '/login'}
+        />
+      )}
 
       {loading ? (
         <div className={styles.centered}>Memuat notes...</div>
@@ -386,6 +456,11 @@ export default memo(function Notes({ userId }) {
         onClose={() => setModalOpen(false)}
         onSubmit={handleAddNote}
         loading={submitting}
+      />
+
+      <PremiumUpgradeModal 
+        open={premiumModalOpen}
+        onClose={() => setPremiumModalOpen(false)}
       />
     </section>
   );

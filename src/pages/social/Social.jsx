@@ -1,7 +1,8 @@
-// src/pages/social/Social.jsx - FIXED VERSION
+// src/pages/social/Social.jsx - UPDATED VERSION
 import { useEffect, useState } from 'react';
 import Navbar, { LoadingScreen } from '../../components/Navbar/Navbar';
 import { supabase } from '../../lib/supabase';
+import { useRole } from '../../context/RoleContext';
 import Notes from '../../components/social/Notes';
 import Announcements from '../../components/social/Announcements';
 import styles from './social.module.css';
@@ -9,6 +10,7 @@ import styles from './social.module.css';
 export default function SocialPage() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { canAddNotes, requiresLogin } = useRole();
 
     useEffect(() => {
         let mounted = true;
@@ -45,7 +47,11 @@ export default function SocialPage() {
             <Navbar />
             <div className={styles.page}>
                 <div className={styles.container}>
-                    <Notes userId={user?.id} />
+                    <Notes 
+                        userId={user?.id} 
+                        canAdd={canAddNotes}
+                        requiresLogin={requiresLogin}
+                    />
                     <Announcements />
                 </div>
             </div>

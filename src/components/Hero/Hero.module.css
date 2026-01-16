@@ -1,85 +1,156 @@
 /* src/components/Hero/Hero.module.css */
 
-/* Hero Section */
+/* ==================== HERO SECTION CONTAINER ==================== */
 .heroSection {
   margin-top: 64px;
   position: relative;
-  width: 100vw;
+  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #141428;
+  background: #0f0f23;
 }
 
-/* Background Image */
+/* ==================== BACKGROUND LAYER ==================== */
 .heroBg {
   position: absolute;
   inset: 0;
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   background-repeat: no-repeat;
   transition: opacity 0.8s ease-in-out;
   will-change: opacity;
 }
 
-/* Overlay */
+@supports not (background-attachment: fixed) {
+  .heroBg {
+    background-attachment: scroll;
+  }
+}
+
+/* ==================== OVERLAY GRADIENT ==================== */
 .heroOverlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(20, 20, 40, 0.88) 0%,
-    rgba(30, 30, 60, 0.80) 50%,
-    rgba(45, 45, 80, 0.72) 100%
+    rgba(15, 15, 35, 0.92) 0%,
+    rgba(25, 25, 55, 0.88) 50%,
+    rgba(35, 35, 75, 0.85) 100%
   );
   z-index: 1;
 }
 
-/* Particles Effect */
+/* ==================== PARTICLE EFFECT ==================== */
 .heroParticles {
   position: absolute;
   inset: 0;
-  background-image: 
-    radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.12) 0%, transparent 50%),
-    radial-gradient(circle at 40% 20%, rgba(69, 183, 209, 0.1) 0%, transparent 50%);
+  background-image:
+    radial-gradient(circle at 15% 45%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 85% 75%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 45% 25%, rgba(69, 183, 209, 0.08) 0%, transparent 50%);
   z-index: 1;
-  animation: particleFloat 20s ease-in-out infinite;
+  animation: particleFloat 25s ease-in-out infinite;
 }
 
 @keyframes particleFloat {
-  0%, 100% { 
-    opacity: 0.3; 
-    transform: scale(1); 
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
   }
-  50% { 
-    opacity: 0.6; 
-    transform: scale(1.1); 
+  50% {
+    opacity: 0.65;
+    transform: scale(1.08);
   }
 }
 
-/* Hero Content */
+/* ==================== MAIN CONTENT CONTAINER ==================== */
 .heroContent {
   position: relative;
   z-index: 2;
-  color: white;
-  text-align: center;
-  max-width: 1000px;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2.5rem;
-  animation: fadeInUp 1.2s ease-out;
+  padding: 60px 20px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: auto;
+  gap: 40px;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  color: white;
+  animation: fadeInContent 1s ease-out 0.2s both;
+  overflow: visible;
 }
 
-@keyframes fadeInUp {
+@keyframes fadeInContent {
   from {
     opacity: 0;
-    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==================== HERO BADGE ==================== */
+.heroBadge {
+  display: inline-block;
+  padding: 0.625rem 1.25rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 9999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  animation: badgeFloat 3s ease-in-out infinite;
+}
+
+@keyframes badgeFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+/* ==================== HERO TEXT SECTION ==================== */
+.heroTextSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+.heroTitle {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  background: linear-gradient(135deg, #ffffff 0%, #e0f2ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: titleSlide 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s both;
+}
+
+@keyframes titleSlide {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -87,306 +158,494 @@
   }
 }
 
-/* Badge */
-.heroBadge {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(12px);
-  border-radius: 50px;
-  border: 2px solid rgba(255, 255, 255, 0.25);
+.heroSubtitle {
+  font-size: clamp(1rem, 2.5vw, 1.375rem);
+  font-weight: 500;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+  margin: 0;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: subtitleSlide 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+}
+
+@keyframes subtitleSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== COUNTDOWN SECTION ==================== */
+.countdownSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 700px;
+  padding: 0;
+  animation: countdownFade 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+}
+
+@keyframes countdownFade {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.countdownLabel {
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  animation: pulse 2s ease-in-out infinite;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.7);
 }
 
-@keyframes pulse {
-  0%, 100% { 
-    transform: scale(1); 
-    opacity: 0.95; 
-  }
-  50% { 
-    transform: scale(1.05); 
-    opacity: 1; 
-  }
-}
-
-/* Hero Text */
-.heroText {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.heroTitle {
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -2px;
-  text-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
-  background: linear-gradient(135deg, #ffffff 0%, #e0f7ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin: 0;
-}
-
-.heroSubtitle {
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  margin: 0;
-}
-
-/* Enhanced Countdown Container */
+/* ==================== COUNTDOWN CONTAINER ==================== */
 .countdownContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding: 2.5rem;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(30px);
-  border-radius: 28px;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  min-width: 90%;
-  max-width: 800px;
-}
-
-/* Circular Wrapper */
-.circularWrapper {
-  position: relative;
-  display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.countdownSvg {
-  filter: drop-shadow(0 8px 24px rgba(78, 205, 196, 0.4));
-}
-
-.countdownProgress {
-  transition: stroke-dashoffset 1s linear;
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-}
-
-/* Countdown Numbers */
-.countdownNumbers {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(1rem, 3vw, 2rem);
+  gap: 0.75rem;
   flex-wrap: wrap;
+  width: 100%;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
+/* ==================== COUNTDOWN ITEM ==================== */
 .countdownItem {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  position: relative;
+  min-width: auto;
 }
 
 .countdownValue {
-  font-size: clamp(3rem, 8vw, 4.5rem);
-  font-weight: 900;
-  color: white;
-  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 80px rgba(78, 205, 196, 0.5);
-  line-height: 1;
-  min-width: clamp(80px, 15vw, 120px);
-  text-align: center;
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 800;
   font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, #ffffff 0%, #e0f7ff 100%);
+  line-height: 1;
+  color: white;
+  background: linear-gradient(180deg, #ffffff 0%, #e0f2ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: glow 2s ease-in-out infinite;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  animation: countGlow 2s ease-in-out infinite;
 }
 
-@keyframes glow {
+@keyframes countGlow {
   0%, 100% {
-    text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 60px rgba(78, 205, 196, 0.4);
+    filter: drop-shadow(0 0 20px rgba(78, 205, 196, 0.3));
   }
   50% {
-    text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 100px rgba(78, 205, 196, 0.7);
+    filter: drop-shadow(0 0 40px rgba(78, 205, 196, 0.6));
   }
 }
 
-.countdownLabel {
-  font-size: clamp(0.75rem, 1.5vw, 1rem);
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.9);
+.countdownUnitLabel {
+  font-size: clamp(0.7rem, 1.5vw, 0.875rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+  letter-spacing: 0.5px;
   text-transform: uppercase;
-  letter-spacing: 2px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .countdownDivider {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.4);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 200;
+  color: rgba(255, 255, 255, 0.3);
+  margin: 0 0.25rem;
   line-height: 1;
-  padding-bottom: 2rem;
+  opacity: 0.5;
 }
 
-/* Premium CTA */
-.premiumCTA {
-  margin-top: 2rem;
-  padding: 2rem;
-  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.15));
-  backdrop-filter: blur(20px);
-  borderRadius: 20px;
-  border: 2px solid rgba(255, 215, 0, 0.3);
-  box-shadow: 0 12px 40px rgba(255, 215, 0, 0.2);
-  text-align: center;
-  animation: ctaFloat 3s ease-in-out infinite;
-  max-width: 600px;
+/* Hapus elemen circular SVG yang kompleks */
+.circularWrapper,
+.countdownSvg,
+.countdownProgress {
+  display: none;
+}
+
+/* ==================== CTA SECTION ==================== */
+.ctaSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   width: 100%;
+  max-width: 600px;
+  padding: 0;
+  animation: ctaSlide 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s both;
 }
 
-@keyframes ctaFloat {
-  0%, 100% {
+@keyframes ctaSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ==================== PREMIUM CTA CARD ==================== */
+.premiumCTA {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 1.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(255, 152, 0, 0.12));
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1.5px solid rgba(255, 193, 7, 0.3);
+  box-shadow: 0 8px 32px rgba(255, 193, 7, 0.15);
+  animation: premiumPulse 3s ease-in-out infinite;
+}
+
+@keyframes premiumPulse {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 8px 32px rgba(255, 193, 7, 0.15);
+  }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(255, 193, 7, 0.25);
   }
 }
 
 .premiumIcon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  animation: bounce 2s ease-in-out infinite;
+  font-size: clamp(2.5rem, 4vw, 3rem);
+  animation: iconBounce 2s ease-in-out infinite;
 }
 
-@keyframes bounce {
+@keyframes iconBounce {
   0%, 100% {
-    transform: translateY(0);
+    transform: translateY(0) rotate(0deg);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px) rotate(5deg);
   }
 }
 
 .premiumTitle {
-  font-size: clamp(1.25rem, 3vw, 1.75rem);
-  font-weight: 800;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 700;
+  margin: 0;
   background: linear-gradient(135deg, #FFD700, #FFA500);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 0 0 0.75rem 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .premiumDesc {
-  font-size: clamp(0.9rem, 2vw, 1.1rem);
-  color: rgba(255, 255, 255, 0.95);
-  margin: 0 0 1.5rem 0;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  line-height: 1.6;
+  font-size: clamp(0.9rem, 1.8vw, 1rem);
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ==================== CTA BUTTONS ==================== */
+.ctaButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.premiumBtn,
+.registerBtn {
+  padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+  border: none;
+  border-radius: 10px;
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .premiumBtn {
   background: linear-gradient(135deg, #FFD700, #FFA500);
   color: white;
-  border: none;
-  padding: 1rem 2.5rem;
-  border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .premiumBtn:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 12px 32px rgba(255, 215, 0, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(255, 193, 7, 0.4);
 }
 
 .premiumBtn:active {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-1px);
 }
 
-/* Responsive Styles */
+.registerBtn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.registerBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.4);
+}
+
+.registerBtn:active {
+  transform: translateY(-1px);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet (Portrait) */
+@media (max-width: 1024px) {
+  .heroContent {
+    padding: 50px 16px;
+    gap: 30px;
+  }
+
+  .heroTitle {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+  }
+
+  .countdownContainer {
+    padding: 1.25rem;
+    gap: 0.5rem;
+  }
+
+  .countdownValue {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+  }
+}
+
+/* Tablet (Landscape) & Small Desktop */
 @media (max-width: 768px) {
   .heroSection {
-    margin-top: 64px;
+    min-height: calc(100vh - 64px);
   }
 
   .heroContent {
-    padding: 2rem 1.25rem;
-    gap: 2rem;
+    padding: 40px 16px;
+    gap: 24px;
   }
 
   .heroBadge {
     font-size: 0.8rem;
-    padding: 0.6rem 1.25rem;
+    padding: 0.5rem 1rem;
   }
 
-  .countdownContainer {
-    padding: 2rem 1.5rem;
-    gap: 1.5rem;
+  .heroTitle {
+    font-size: clamp(1.5rem, 4.5vw, 2.5rem);
+    line-height: 1.2;
   }
 
-  .countdownNumbers {
+  .heroSubtitle {
+    font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+  }
+
+  .countdownSection {
     gap: 1rem;
   }
 
-  .countdownDivider {
-    padding-bottom: 1.5rem;
-  }
-
-  .premiumCTA {
-    padding: 1.5rem;
-  }
-
-  .premiumIcon {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .heroContent {
-    padding: 1.5rem 1rem;
+  .countdownLabel {
+    font-size: 0.85rem;
   }
 
   .countdownContainer {
-    padding: 1.5rem 1rem;
-    min-width: 95%;
+    padding: 1rem;
+    gap: 0.5rem;
+    border-radius: 16px;
   }
 
-  .countdownNumbers {
+  .countdownValue {
+    font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  }
+
+  .countdownUnitLabel {
+    font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+  }
+
+  .countdownDivider {
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+  }
+
+  .premiumCTA {
+    padding: 1.5rem 1.25rem;
+    gap: 1rem;
+  }
+
+  .premiumBtn,
+  .registerBtn {
+    padding: 0.7rem 1.5rem;
+  }
+}
+
+/* Mobile (Large) */
+@media (max-width: 480px) {
+  .heroSection {
+    min-height: auto;
+    padding: 40px 0;
+  }
+
+  .heroContent {
+    padding: 30px 12px;
+    gap: 20px;
+    grid-auto-rows: auto;
+  }
+
+  .heroBadge {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.9rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(1.25rem, 5.5vw, 2rem);
+    line-height: 1.25;
+  }
+
+  .heroSubtitle {
+    font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+    line-height: 1.5;
+  }
+
+  .heroTextSection {
+    gap: 1rem;
+  }
+
+  .countdownSection {
+    gap: 0.75rem;
+  }
+
+  .countdownLabel {
+    font-size: 0.8rem;
+  }
+
+  .countdownContainer {
+    padding: 0.875rem;
+    gap: 0.375rem;
+    border-radius: 12px;
+  }
+
+  .countdownItem {
+    gap: 0.375rem;
+  }
+
+  .countdownValue {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+  }
+
+  .countdownUnitLabel {
+    font-size: 0.6rem;
+  }
+
+  .countdownDivider {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+  }
+
+  .ctaSection {
     gap: 0.75rem;
   }
 
   .premiumCTA {
-    padding: 1.25rem;
+    padding: 1.25rem 1rem;
+    gap: 0.875rem;
+    border-radius: 12px;
   }
 
-  .premiumBtn {
-    width: 100%;
-    padding: 0.875rem 2rem;
+  .premiumIcon {
+    font-size: clamp(2rem, 4.5vw, 2.5rem);
+  }
+
+  .premiumTitle {
+    font-size: clamp(1rem, 2.2vw, 1.25rem);
+  }
+
+  .premiumDesc {
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  }
+
+  .ctaButtons {
+    gap: 0.625rem;
+  }
+
+  .premiumBtn,
+  .registerBtn {
+    padding: 0.65rem 1.25rem;
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
   }
 }
 
-/* Performance optimizations */
+/* Extra Small Mobile */
+@media (max-width: 360px) {
+  .heroContent {
+    padding: 24px 10px;
+    gap: 16px;
+  }
+
+  .countdownContainer {
+    padding: 0.75rem;
+    gap: 0.25rem;
+  }
+
+  .countdownValue {
+    font-size: clamp(1.25rem, 3.5vw, 1.75rem);
+  }
+}
+
+/* ==================== PERFORMANCE OPTIMIZATIONS ==================== */
+
+/* Reduce motion untuk accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .heroBg,
-  .heroContent,
   .heroBadge,
-  .heroParticles,
-  .countdownProgress,
-  .countdownValue,
+  .heroTitle,
+  .heroSubtitle,
+  .countdownSection,
+  .ctaSection,
   .premiumCTA,
-  .premiumIcon {
+  .premiumIcon,
+  .premiumBtn:hover,
+  .registerBtn:hover {
     animation: none !important;
     transition: none !important;
+  }
+}
+
+/* Dark mode (fallback) */
+@media (prefers-color-scheme: light) {
+  .heroSection {
+    background: #f5f7fa;
+  }
+
+  .heroOverlay {
+    background: linear-gradient(
+      135deg,
+      rgba(245, 247, 250, 0.85) 0%,
+      rgba(235, 240, 250, 0.8) 50%,
+      rgba(225, 235, 250, 0.75) 100%
+    );
   }
 }

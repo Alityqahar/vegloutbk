@@ -403,6 +403,130 @@
   color: #888;
 }
 
+/* ==================== PREMIUM BANNER ==================== */
+
+.premiumBanner {
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 193, 7, 0.12), rgba(255, 152, 0, 0.12));
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(255, 193, 7, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: bannerSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes bannerSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.bannerIcon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+  animation: iconFloat 2s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.bannerText {
+  flex: 1;
+  min-width: 0;
+}
+
+.bannerTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+}
+
+.bannerDesc {
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.7);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.bannerActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.bannerBtnPrimary,
+.bannerBtnSecondary {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  white-space: nowrap;
+}
+
+.bannerBtnPrimary {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.bannerBtnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 193, 7, 0.4);
+}
+
+.bannerBtnSecondary {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  color: #333;
+}
+
+.bannerBtnSecondary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ==================== ADD NOTES BUTTON STATE ==================== */
+
+.addNotesBtn:disabled,
+.addNotesBtnDisabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--color-bg-secondary) !important;
+  color: var(--color-text-secondary) !important;
+  border: 2px solid var(--color-border-light) !important;
+  box-shadow: none !important;
+}
+
+.addNotesBtn:disabled:hover {
+  transform: none;
+  box-shadow: none !important;
+}
+
 /* ==================== ANIMATIONS ==================== */
 
 @keyframes fadeIn {
@@ -451,6 +575,21 @@
   .addNotesBtn {
     width: 100%;
   }
+
+  .bannerContent {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .bannerActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .bannerBtnPrimary,
+  .bannerBtnSecondary {
+    flex: 1;
+  }
 }
 
 @media (max-width: 480px) {
@@ -469,5 +608,28 @@
   .noteCard,
   .announcementCard {
     padding: 1rem;
+  }
+
+  .premiumBanner {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  .bannerIcon {
+    font-size: 2rem;
+  }
+
+  .bannerTitle {
+    font-size: 1rem;
+  }
+
+  .bannerDesc {
+    font-size: 0.85rem;
+  }
+
+  .bannerBtnPrimary,
+  .bannerBtnSecondary {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
   }
 }

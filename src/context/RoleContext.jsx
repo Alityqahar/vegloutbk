@@ -60,14 +60,29 @@ export function RoleProvider({ children }) {
     };
   }, []);
 
+  // ==================== HELPER METHODS ====================
+  
+  const canAddNotes = role === 'subs' || role === 'admin';
+  const canManageContent = role === 'admin';
+  const hasAccess = role === 'subs' || role === 'admin';
+  const isGuest = !user;
+
   const value = {
     user,
     role,
     loading,
+    // Role checks
     isUser: role === 'user',
     isSubs: role === 'subs',
     isAdmin: role === 'admin',
-    hasAccess: role === 'subs' || role === 'admin'
+    // Feature access
+    hasAccess,
+    canAddNotes,
+    canManageContent,
+    isGuest,
+    // Helper methods
+    requiresUpgrade: role === 'user',
+    requiresLogin: !user
   };
 
   return <RoleContext.Provider value={value}>{children}</RoleContext.Provider>;
