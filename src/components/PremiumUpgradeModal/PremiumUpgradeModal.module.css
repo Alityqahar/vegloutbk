@@ -1,0 +1,297 @@
+/* src/components/PremiumUpgradeModal/PremiumUpgradeModal.module.css */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 40, 60, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: backdropFadeIn 0.3s ease-out;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContent {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafd 100%);
+  border-radius: 24px;
+  box-shadow: 0 24px 72px rgba(0, 0, 0, 0.3);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 560px;
+  position: relative;
+  animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalClose {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  line-height: 1;
+}
+
+.modalClose:hover {
+  background: #e74c3c;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.modalHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.iconWrapper {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  box-shadow: 0 12px 32px rgba(255, 215, 0, 0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 12px 32px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 16px 40px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.modalTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.modalSubtitle {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
+
+.benefitsSection {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 165, 0, 0.08));
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.sectionTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 1rem;
+}
+
+.benefitsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  color: #444;
+  animation: fadeInLeft 0.4s ease-out backwards;
+}
+
+.benefitItem:nth-child(1) { animation-delay: 0s; }
+.benefitItem:nth-child(2) { animation-delay: 0.1s; }
+.benefitItem:nth-child(3) { animation-delay: 0.2s; }
+.benefitItem:nth-child(4) { animation-delay: 0.3s; }
+.benefitItem:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.benefitIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.stepsSection {
+  background: white;
+  border: 2px solid #e8eef7;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stepsList {
+  padding: 0 0 0 1.25rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.stepsList li {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.6;
+  animation: fadeInUp 0.4s ease-out backwards;
+}
+
+.stepsList li:nth-child(1) { animation-delay: 0s; }
+.stepsList li:nth-child(2) { animation-delay: 0.1s; }
+.stepsList li:nth-child(3) { animation-delay: 0.2s; }
+.stepsList li:nth-child(4) { animation-delay: 0.3s; }
+.stepsList li:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.contactSection {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+.contactTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.contactButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.contactBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 300px;
+  justify-content: center;
+}
+
+.contactBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  color: white;
+  text-decoration: none;
+}
+
+.contactIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.footerNote {
+  font-size: 0.85rem;
+  color: #888;
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .modalContent {
+    padding: 2rem 1.5rem;
+  }
+
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+
+  .iconWrapper {
+    width: 64px;
+    height: 64px;
+    font-size: 2.5rem;
+  }
+
+  .benefitsSection,
+  .stepsSection {
+    padding: 1.25rem;
+  }
+
+  .contactSection {
+    padding: 1.25rem;
+  }
+}

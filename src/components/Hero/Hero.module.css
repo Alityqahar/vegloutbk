@@ -1,277 +1,392 @@
+/* src/components/Hero/Hero.module.css */
+
 /* Hero Section */
 .heroSection {
-margin-top: 64px;
-position: relative;
-width: 100vw;
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-overflow: hidden;
-background: var(--color-text-primary);
+  margin-top: 64px;
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #141428;
 }
 
 /* Background Image */
 .heroBg {
-position: absolute;
-inset: 0;
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-transition: opacity 0.8s ease-in-out;
-will-change: opacity;
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 0.8s ease-in-out;
+  will-change: opacity;
 }
 
 /* Overlay */
 .heroOverlay {
-position: absolute;
-inset: 0;
-background: linear-gradient(
-135deg,
-rgba(20, 20, 40, 0.85) 0%,
-rgba(30, 30, 60, 0.75) 50%,
-rgba(45, 45, 80, 0.65) 100%
-);
-z-index: 1;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(20, 20, 40, 0.88) 0%,
+    rgba(30, 30, 60, 0.80) 50%,
+    rgba(45, 45, 80, 0.72) 100%
+  );
+  z-index: 1;
 }
 
 /* Particles Effect */
 .heroParticles {
-position: absolute;
-inset: 0;
-background-image: 
-radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.1) 0%, transparent 50%),
-radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 50%),
-radial-gradient(circle at 40% 20%, rgba(69, 183, 209, 0.08) 0%, transparent 50%);
-z-index: 1;
-animation: particleFloat 20s ease-in-out infinite;
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 107, 107, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(78, 205, 196, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(69, 183, 209, 0.1) 0%, transparent 50%);
+  z-index: 1;
+  animation: particleFloat 20s ease-in-out infinite;
 }
 
 @keyframes particleFloat {
-0%, 100% { 
-opacity: 0.3; 
-transform: scale(1); 
-}
-50% { 
-opacity: 0.6; 
-transform: scale(1.1); 
-}
+  0%, 100% { 
+    opacity: 0.3; 
+    transform: scale(1); 
+  }
+  50% { 
+    opacity: 0.6; 
+    transform: scale(1.1); 
+  }
 }
 
 /* Hero Content */
 .heroContent {
-position: relative;
-z-index: 2;
-color: white;
-text-align: center;
-max-width: 900px;
-margin: 0 auto;
-padding: var(--spacing-3xl) var(--spacing-xl);
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: var(--spacing-2xl);
-animation: fadeInUp 1.2s ease-out;
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  animation: fadeInUp 1.2s ease-out;
 }
 
 @keyframes fadeInUp {
-from {
-opacity: 0;
-transform: translateY(30px);
-}
-to {
-opacity: 1;
-transform: translateY(0);
-}
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Badge */
 .heroBadge {
-display: inline-block;
-padding: var(--spacing-sm) var(--spacing-lg);
-background: rgba(255, 255, 255, 0.1);
-backdrop-filter: blur(10px);
-border-radius: var(--border-radius-full);
-border: 1px solid rgba(255, 255, 255, 0.2);
-font-size: var(--font-size-sm);
-font-weight: var(--font-weight-semibold);
-letter-spacing: 1px;
-text-transform: uppercase;
-animation: pulse 2s ease-in-out infinite;
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  border-radius: 50px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes pulse {
-0%, 100% { 
-transform: scale(1); 
-opacity: 0.9; 
-}
-50% { 
-transform: scale(1.05); 
-opacity: 1; 
-}
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.95; 
+  }
+  50% { 
+    transform: scale(1.05); 
+    opacity: 1; 
+  }
 }
 
 /* Hero Text */
 .heroText {
-display: flex;
-flex-direction: column;
-gap: var(--spacing-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .heroTitle {
-font-size: clamp(2rem, 5vw, 3.5rem);
-font-weight: var(--font-weight-extrabold);
-line-height: var(--line-height-tight);
-letter-spacing: -1px;
-text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
-background-clip: text;
-margin: 0;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  text-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #ffffff 0%, #e0f7ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
 }
 
 .heroSubtitle {
-font-size: clamp(1rem, 2vw, 1.125rem);
-font-weight: var(--font-weight-medium);
-color: rgba(255, 255, 255, 0.85);
-text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-margin: 0;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+  margin: 0;
 }
 
-/* Countdown Container */
+/* Enhanced Countdown Container */
 .countdownContainer {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: var(--spacing-xl);
-padding: var(--spacing-2xl);
-background: rgba(255, 255, 255, 0.06);
-backdrop-filter: blur(20px);
-border-radius: var(--border-radius-xl);
-border: 1px solid rgba(255, 255, 255, 0.15);
-box-shadow: var(--shadow-2xl);
-min-width: 320px;
-max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px);
+  border-radius: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  min-width: 90%;
+  max-width: 800px;
 }
 
 /* Circular Wrapper */
 .circularWrapper {
-position: relative;
-display: flex;
-align-items: center;
-justify-content: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .countdownSvg {
-filter: drop-shadow(0 4px 16px rgba(78, 205, 196, 0.3));
+  filter: drop-shadow(0 8px 24px rgba(78, 205, 196, 0.4));
 }
 
 .countdownProgress {
-transition: stroke-dashoffset 1s linear;
-transform: rotate(-90deg);
-transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1s linear;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
 }
 
 /* Countdown Numbers */
 .countdownNumbers {
-display: flex;
-align-items: center;
-justify-content: center;
-gap: var(--spacing-md);
-flex-wrap: wrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  flex-wrap: wrap;
 }
 
 .countdownItem {
-display: flex;
-flex-direction: column;
-align-items: center;
-gap: var(--spacing-xs);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
 }
 
 .countdownValue {
-font-size: clamp(1.75rem, 4vw, 2.5rem);
-font-weight: var(--font-weight-extrabold);
-color: white;
-text-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-line-height: 1;
-min-width: clamp(45px, 10vw, 60px);
-text-align: center;
-font-variant-numeric: tabular-nums;
+  font-size: clamp(3rem, 8vw, 4.5rem);
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 80px rgba(78, 205, 196, 0.5);
+  line-height: 1;
+  min-width: clamp(80px, 15vw, 120px);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #ffffff 0%, #e0f7ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 60px rgba(78, 205, 196, 0.4);
+  }
+  50% {
+    text-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 100px rgba(78, 205, 196, 0.7);
+  }
 }
 
 .countdownLabel {
-font-size: var(--font-size-xs);
-font-weight: var(--font-weight-semibold);
-color: rgba(255, 255, 255, 0.7);
-text-transform: uppercase;
-letter-spacing: 1px;
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .countdownDivider {
-font-size: clamp(1.5rem, 3vw, 2rem);
-font-weight: var(--font-weight-bold);
-color: rgba(255, 255, 255, 0.4);
-margin: 0 var(--spacing-xs);
-line-height: 1;
-padding-bottom: var(--spacing-lg);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+  padding-bottom: 2rem;
+}
+
+/* Premium CTA */
+.premiumCTA {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.15));
+  backdrop-filter: blur(20px);
+  borderRadius: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  box-shadow: 0 12px 40px rgba(255, 215, 0, 0.2);
+  text-align: center;
+  animation: ctaFloat 3s ease-in-out infinite;
+  max-width: 600px;
+  width: 100%;
+}
+
+@keyframes ctaFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.premiumIcon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.premiumTitle {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 0.75rem 0;
+}
+
+.premiumDesc {
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 1.5rem 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  line-height: 1.6;
+}
+
+.premiumBtn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.premiumBtn:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 32px rgba(255, 215, 0, 0.6);
+}
+
+.premiumBtn:active {
+  transform: translateY(-2px) scale(1.02);
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
-.heroSection {
-margin-top: 64px;
-}
+  .heroSection {
+    margin-top: 64px;
+  }
 
-.heroContent {
-padding: var(--spacing-xl) var(--spacing-lg);
-gap: var(--spacing-xl);
-}
+  .heroContent {
+    padding: 2rem 1.25rem;
+    gap: 2rem;
+  }
 
-.heroBadge {
-font-size: var(--font-size-xs);
-padding: var(--spacing-xs) var(--spacing-md);
-}
+  .heroBadge {
+    font-size: 0.8rem;
+    padding: 0.6rem 1.25rem;
+  }
 
-.countdownContainer {
-padding: var(--spacing-lg);
-min-width: 280px;
-gap: var(--spacing-lg);
-}
+  .countdownContainer {
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
 
-.countdownNumbers {
-gap: var(--spacing-sm);
-}
+  .countdownNumbers {
+    gap: 1rem;
+  }
 
-.countdownDivider {
-margin: 0 var(--spacing-xs);
-padding-bottom: var(--spacing-md);
-}
+  .countdownDivider {
+    padding-bottom: 1.5rem;
+  }
+
+  .premiumCTA {
+    padding: 1.5rem;
+  }
+
+  .premiumIcon {
+    font-size: 2rem;
+  }
 }
 
 @media (max-width: 480px) {
-.heroContent {
-padding: var(--spacing-lg) var(--spacing-md);
-}
+  .heroContent {
+    padding: 1.5rem 1rem;
+  }
 
-.countdownContainer {
-padding: var(--spacing-md);
-min-width: 260px;
-}
+  .countdownContainer {
+    padding: 1.5rem 1rem;
+    min-width: 95%;
+  }
 
-.countdownNumbers {
-gap: var(--spacing-xs);
-}
+  .countdownNumbers {
+    gap: 0.75rem;
+  }
+
+  .premiumCTA {
+    padding: 1.25rem;
+  }
+
+  .premiumBtn {
+    width: 100%;
+    padding: 0.875rem 2rem;
+  }
 }
 
 /* Performance optimizations */
 @media (prefers-reduced-motion: reduce) {
-.heroBg,
-.heroContent,
-.heroBadge,
-.heroParticles,
-.countdownProgress {
-animation: none !important;
-transition: none !important;
-}
+  .heroBg,
+  .heroContent,
+  .heroBadge,
+  .heroParticles,
+  .countdownProgress,
+  .countdownValue,
+  .premiumCTA,
+  .premiumIcon {
+    animation: none !important;
+    transition: none !important;
+  }
 }
