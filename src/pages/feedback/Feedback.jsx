@@ -10,7 +10,7 @@ export default function FeedbackPage() {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
     const [checking, setChecking] = useState(true);
-    const showLoadingScreen = useLoadingDelay(user !== null && !checking, 2000);
+    const showLoadingScreen = useLoadingDelay(user !== null && !checking, 500);
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -75,7 +75,7 @@ const SUBTESTS = [
 export default function Latsol() {
     const [counts, setCounts] = useState({});
     const [dataReady, setDataReady] = useState(false);
-    const showLoading = useLoadingDelay(dataReady, 2000);
+    const showLoading = useLoadingDelay(dataReady, 500);
 
     useEffect(() => {
         let isMounted = true;

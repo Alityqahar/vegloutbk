@@ -1,10 +1,11 @@
+// src/components/Navbar/Navbar.jsx - ENHANCED VERSION
 import { memo, useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import { useRole } from '../../context/RoleContext';
 import Swal from 'sweetalert2';
 import styles from './Navbar.module.css';
 
-// Komponen terpisah untuk menu items (reusable)
 const NavLink = memo(({ to, children, onClick }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
@@ -24,9 +25,9 @@ const NavLink = memo(({ to, children, onClick }) => {
 
 NavLink.displayName = 'NavLink';
 
-// Komponen user dropdown
-const UserDropdown = memo(({ username, onLogout }) => {
+const UserDropdown = memo(({ username, role, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = useCallback(() => {
     setIsOpen(prev => !prev);
@@ -36,7 +37,6 @@ const UserDropdown = memo(({ username, onLogout }) => {
     setIsOpen(false);
   }, []);
 
-  // Close dropdown saat click outside
   useEffect(() => {
     if (!isOpen) return;
 
@@ -55,6 +55,22 @@ const UserDropdown = memo(({ username, onLogout }) => {
     onLogout();
   }, [onLogout, closeDropdown]);
 
+  const handleAdminClick = () => {
+    closeDropdown();
+    navigate('/admin');
+  };
+
+  // Role badge style
+  const getRoleBadge = () => {
+    if (role === 'admin') {
+      return <span className={styles.roleBadgeAdmin}>ADMIN</span>;
+    }
+    if (role === 'subs') {
+      return <span className={styles.roleBadgeSubs}>⭐ PREMIUM</span>;
+    }
+    return null;
+  };
+
   return (
     <div className={styles.userDropdown}>
       <button 
@@ -63,10 +79,13 @@ const UserDropdown = memo(({ username, onLogout }) => {
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <span className={styles.userAvatar}>
+        <span className={`${styles.userAvatar} ${role === 'subs' ? styles.avatarSubs : ''} ${role === 'admin' ? styles.avatarAdmin : ''}`}>
           {username.charAt(0).toUpperCase()}
         </span>
-        <span className={styles.userName}>Hai, {username}!</span>
+        <div className={styles.userInfo}>
+          <span className={styles.userName}>Hai, {username}!</span>
+          {getRoleBadge()}
+        </div>
         <svg 
           className={`${styles.dropdownIcon} ${isOpen ? styles.dropdownIconOpen : ''}`}
           width="12" 
@@ -80,6 +99,20 @@ const UserDropdown = memo(({ username, onLogout }) => {
       
       {isOpen && (
         <div className={styles.dropdownMenu}>
+          {role === 'admin' && (
+            <button 
+              className={styles.dropdownItem}
+              onClick={handleAdminClick}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6.66667 2H3.33333C2.59695 2 2 2.59695 2 3.33333V6.66667C2 7.40305 2.59695 8 3.33333 8H6.66667C7.40305 8 8 7.40305 8 6.66667V3.33333C8 2.59695 7.40305 2 6.66667 2Z" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M12.6667 2H9.33333C8.59695 2 8 2.59695 8 3.33333V6.66667C8 7.40305 8.59695 8 9.33333 8H12.6667C13.403 8 14 7.40305 14 6.66667V3.33333C14 2.59695 13.403 2 12.6667 2Z" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M6.66667 8H3.33333C2.59695 8 2 8.59695 2 9.33333V12.6667C2 13.403 2.59695 14 3.33333 14H6.66667C7.40305 14 8 13.403 8 12.6667V9.33333C8 8.59695 7.40305 8 6.66667 8Z" stroke="currentColor" strokeWidth="1.5"/>
+                <path d="M12.6667 8H9.33333C8.59695 8 8 8.59695 8 9.33333V12.6667C8 13.403 8.59695 14 9.33333 14H12.6667C13.403 14 14 13.403 14 12.6667V9.33333C14 8.59695 13.403 8 12.6667 8Z" stroke="currentColor" strokeWidth="1.5"/>
+              </svg>
+              Dashboard Admin
+            </button>
+          )}
           <button 
             className={styles.dropdownItem}
             onClick={handleLogout}
@@ -99,7 +132,6 @@ const UserDropdown = memo(({ username, onLogout }) => {
 
 UserDropdown.displayName = 'UserDropdown';
 
-// Enhanced LoadingScreen component
 export function LoadingScreen({ show = false }) {
   if (!show) return null;
   return (
@@ -123,7 +155,6 @@ export function LoadingScreen({ show = false }) {
         gap: 24,
         animation: 'fadeInScale 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
       }}>
-        {/* Animated spinner */}
         <div style={{
           position: 'relative',
           width: 64,
@@ -147,7 +178,6 @@ export function LoadingScreen({ show = false }) {
           }} />
         </div>
 
-        {/* Loading text */}
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -171,7 +201,6 @@ export function LoadingScreen({ show = false }) {
           </div>
         </div>
 
-        {/* Progress indicator */}
         <div style={{
           width: 200,
           height: 4,
@@ -216,68 +245,20 @@ export function LoadingScreen({ show = false }) {
 }
 
 function Navbar() {
-  const [user, setUser] = useState(null);
+  const { user, role, loading } = useRole();
   const [username, setUsername] = useState('User');
-  const [loading, setLoading] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ PENTING: useEffect untuk Auth Check (jangan dihapus!)
-  useEffect(() => {
-    let mounted = true;
-
-    // Get initial user
-    supabase.auth.getUser().then(({ data }) => {
-      if (mounted) {
-        setUser(data?.user);
-        setLoading(false);
-      }
-    });
-
-    // Listen to auth changes
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (mounted) {
-        setUser(session?.user ?? null);
-      }
-    });
-
-    return () => {
-      mounted = false;
-      listener?.subscription.unsubscribe();
-    };
-  }, []);
-
-  // ✅ Fetch username dari tabel profiles
   useEffect(() => {
     if (!user) return;
-    
-    let mounted = true;
-    
-    const fetchUsername = async () => {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('username')
-        .eq('id', user.id)
-        .single();
-      
-      if (mounted && !error && data) {
-        setUsername(data.username || user.email?.split('@')[0] || 'User');
-      } else if (mounted) {
-        // Fallback jika tidak ada di profiles
-        setUsername(user.email?.split('@')[0] || 'User');
-      }
-    };
-    
-    fetchUsername();
-    
-    return () => { mounted = false; };
+    setUsername(user.username || user.email?.split('@')[0] || 'User');
   }, [user]);
 
   const handleLogout = useCallback(async () => {
     const { error } = await supabase.auth.signOut();
 
     if (!error) {
-      setUser(null);
       Swal.fire({
         icon: 'success',
         title: 'Logout Berhasil',
@@ -324,7 +305,7 @@ function Navbar() {
               <span style={{color:'white'}}>Login</span>
             </Link>
           ) : (
-            <UserDropdown username={username} onLogout={handleLogout} />
+            <UserDropdown username={username} role={role} onLogout={handleLogout} />
           )}
           
           <button 
