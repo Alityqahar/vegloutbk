@@ -19,7 +19,7 @@ const SubscriptionGate = memo(({ children, feature = 'fitur ini' }) => {
         </h3>
         <p className={styles.gateDesc}>
           {role === 'user' 
-            ? `Akses ${feature} tersedia untuk member premium. Upgrade akun Anda untuk mendapatkan akses penuh ke semua fitur.`
+            ? `Akses ${feature} tersedia untuk member premium. Silahkan hubungin admin(Najiha atau Aul).`
             : `Silakan login untuk mengakses ${feature}.`
           }
         </p>
