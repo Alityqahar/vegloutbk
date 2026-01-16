@@ -1,0 +1,473 @@
+/* ==================== PAGE LAYOUT ==================== */
+
+.page {
+  min-height: 100vh;
+  background: #f8fafd;
+  padding: 100px 16px 40px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ==================== NOTES SECTION ==================== */
+
+.notesSection {
+  width: 100%;
+}
+
+.notesSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #007bff;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.addNotesBtn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+}
+
+.addNotesBtn:hover {
+  background: linear-gradient(135deg, #0056b3, #003d82);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.addNotesBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 123, 255, 0.15);
+}
+
+.notesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ==================== NOTE CARD ==================== */
+
+.noteCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8eef7;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  animation: fadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.noteCard:hover {
+  box-shadow: 0 6px 16px rgba(0, 123, 255, 0.12);
+  border-color: #007bff;
+  transform: translateY(-4px);
+}
+
+.noteHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.noteUser {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.noteAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #007bff, #4ecdc4);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.noteUsername {
+  font-weight: 700;
+  color: #222;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.noteTime {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 0.2rem;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.deleteBtn:hover {
+  color: #e74c3c;
+  transform: scale(1.1);
+}
+
+.noteContent {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+/* ==================== ANNOUNCEMENTS SECTION ==================== */
+
+.announcementsSection {
+  width: 100%;
+}
+
+.announcementsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ==================== ANNOUNCEMENT CARD ==================== */
+
+.announcementCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #ff9800;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: fadeInUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.announcementCard:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  transform: translateX(4px);
+}
+
+.announcementBadge {
+  display: inline-block;
+  background: rgba(255, 152, 0, 0.1);
+  color: #ff9800;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  letter-spacing: 0.5px;
+}
+
+.announcementTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 0.6rem 0;
+  line-height: 1.4;
+}
+
+.announcementContent {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 1rem 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.announcementFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.8rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.announcementDate {
+  font-size: 0.8rem;
+  color: #999;
+  font-weight: 500;
+}
+
+/* ==================== MODAL ==================== */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 40, 60, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: backdropFadeIn 0.25s ease-out;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modalContent {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+  animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modalClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.modalClose:hover {
+  background: #e74c3c;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #007bff;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: -0.5px;
+}
+
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.notesInput {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #e0eaff;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  resize: vertical;
+  transition: all 0.2s;
+}
+
+.notesInput:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+  outline: none;
+}
+
+.charCount {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #999;
+  font-weight: 500;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e8eef7;
+}
+
+.btnCancel {
+  padding: 0.6rem 1.2rem;
+  border: 2px solid #e0eaff;
+  border-radius: 8px;
+  background: white;
+  color: #666;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnCancel:hover {
+  background: #f8fafd;
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.btnSubmit {
+  padding: 0.6rem 1.5rem;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btnSubmit:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btnSubmit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ==================== EMPTY STATE ==================== */
+
+.emptyState {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-size: 0.95rem;
+  background: #f8fafd;
+  border-radius: 12px;
+  border: 1px dashed #e0eaff;
+}
+
+.centered {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+}
+
+/* ==================== ANIMATIONS ==================== */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== RESPONSIVE ==================== */
+
+@media (max-width: 768px) {
+  .page {
+    padding: 100px 12px 30px;
+  }
+
+  .container {
+    gap: 1.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.4rem;
+  }
+
+  .notesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modalContent {
+    padding: 1.5rem;
+  }
+
+  .notesSectionHeader {
+    flex-wrap: wrap;
+  }
+
+  .addNotesBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 80px 8px 20px;
+  }
+
+  .sectionTitle {
+    font-size: 1.2rem;
+  }
+
+  .modalContent {
+    max-width: calc(100% - 1rem);
+  }
+
+  .noteCard,
+  .announcementCard {
+    padding: 1rem;
+  }
+}

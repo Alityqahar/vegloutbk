@@ -25,6 +25,7 @@ import FeedbackPage from './pages/feedback/Feedback';
 import LatsolPBM from './pages/subtest/pbm/latsol';
 import MateriPBM from './pages/subtest/pbm/materi';
 import TodoPage from './pages/todo/Todo';
+import SocialPage from './pages/social/Social';
 
 function App() {
   return (
@@ -124,6 +125,11 @@ function App() {
         <Route path="/todo" element={
           <RequireAuth>
             <TodoPage />
+          </RequireAuth>
+        } />
+        <Route path="/social" element={
+          <RequireAuth>
+            <SocialPage />
           </RequireAuth>
         } />
       </Routes>

@@ -152,9 +152,9 @@ return (
             setForm({ ...form, priority: e.target.value })
         }
         >
-        <option value="low">Low</option>
-        <option value="normal">Normal</option>
-        <option value="high">High</option>
+        <option value="low">Normal</option>
+        <option value="normal">Penting</option>
+        <option value="high">Mendesak</option>
         </select>
     </div>
 

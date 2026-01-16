@@ -310,6 +310,7 @@ function Navbar() {
             <NavLink to="/" onClick={closeMobileMenu}>Home</NavLink>
             <NavLink to="/materi" onClick={closeMobileMenu}>Materi</NavLink>
             <NavLink to="/latsol" onClick={closeMobileMenu}>Latsol</NavLink>
+            <NavLink to="/social" onClick={closeMobileMenu}>Social</NavLink>
             <NavLink to="/todo" onClick={closeMobileMenu}>To-Do</NavLink>
             <NavLink to="/feedback" onClick={closeMobileMenu}>Feedback</NavLink>
           </ul>
