@@ -86,7 +86,6 @@ const AddEditSoalModal = memo(({ open, onClose, onSubmit, initialData, loading }
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Deskripsi singkat tentang materi ini..."
-              required
               disabled={loading}
               rows={4}
             />
@@ -146,23 +145,40 @@ const AddEditSoalModal = memo(({ open, onClose, onSubmit, initialData, loading }
 
 AddEditSoalModal.displayName = 'AddEditSoalModal';
 
+/* ================= HELPER FUNCTIONS ================= */
+function getDisplayUsername(item, currentUserId) {
+  // Jika user adalah pemilik konten, tampilkan sebagai identitas asli
+  if (item.user_id === currentUserId) {
+    return item.username || 'Anda';
+  }
+  // Jika username mengindikasikan admin, tampilkan sebagai "Admin"
+  if (item.username === 'admin' || item.is_admin) {
+    return 'Admin';
+  }
+  // Fallback ke username asli
+  return item.username || 'Pengguna';
+}
+
 /* ================= SOAL ITEM COMPONENT ================= */
 const SoalItem = memo(({ item, onEdit, onDelete, onViewPDF, canEdit, currentUserId }) => {
+  const displayUsername = getDisplayUsername(item, currentUserId);
+  const isOwnContent = item.user_id === currentUserId;
+
   return (
     <div className={styles.soalItem}>
       <div className={styles.soalInfo}>
         <h4 className={styles.soalTitle}>{item.title}</h4>
         <p className={styles.soalDesc}>{item.description}</p>
         
-        {item.user_id !== currentUserId && item.username ? (
-          <span className={styles.ownerBadge}>
-            👤 Diunggah oleh: <strong>{item.username}</strong>
-          </span>
-        ) : item.user_id === currentUserId ? (
+        {isOwnContent ? (
           <span className={styles.myFileBadge}>
             ✨ Materi Anda
           </span>
-        ) : null}
+        ) : (
+          <span className={styles.ownerBadge}>
+            👤 Diunggah oleh: <strong>{displayUsername}</strong>
+          </span>
+        )}
       </div>
 
       <div className={styles.soalActions}>

@@ -120,7 +120,7 @@ function getTimeAgo(date) {
   return date.toLocaleDateString();
 }
 
-// ==================== NOTE ITEM COMPONENT ====================
+/* ==================== NOTE ITEM COMPONENT ==================== */
 const NoteItem = memo(({ note, onDelete, canDelete }) => {
   const createdAt = new Date(note.created_at);
   const timeAgo = getTimeAgo(createdAt);
@@ -133,15 +133,18 @@ const NoteItem = memo(({ note, onDelete, canDelete }) => {
     ? `Hilang dalam ${hours}h ${minutes}m` 
     : `Hilang dalam ${minutes}m`;
 
+  // Fallback ke "User" jika username tidak tersedia
+  const displayUsername = note.username || 'User';
+
   return (
     <div className={styles.noteCard}>
       <div className={styles.noteHeader}>
         <div className={styles.noteUser}>
           <div className={styles.noteAvatar}>
-            {note.username?.charAt(0).toUpperCase() || 'U'}
+            {displayUsername.charAt(0).toUpperCase()}
           </div>
           <div>
-            <div className={styles.noteUsername}>{note.username || 'Pengguna'}</div>
+            <div className={styles.noteUsername}>{displayUsername}</div>
             <div className={styles.noteTime}>{timeAgo}</div>
           </div>
         </div>
@@ -339,10 +342,18 @@ export default memo(function Notes({ userId, canAdd, requiresLogin }) {
 
       if (error) throw error;
 
-      const username = 
-        currentUser.user_metadata?.full_name || 
-        currentUser.email?.split('@')[0] || 
-        'Pengguna';
+      // Ambil username dari profiles table untuk konsistensi
+      let username = 'User';
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('username')
+          .eq('id', userId)
+          .single();
+        username = profile?.username || 'User';
+      } catch {
+        username = 'User';
+      }
 
       const newNote = {
         id: Date.now(),

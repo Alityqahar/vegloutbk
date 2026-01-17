@@ -25,6 +25,12 @@ const CONTENT_TYPES = {
   ]
 };
 
+/* ================= HELPER FUNCTIONS ================= */
+function getDisplayUploader(uploader, isAdminContent) {
+  if (isAdminContent) return 'Admin';
+  return uploader || 'Pengguna';
+}
+
 // Component for Notes with Delete
 const NoteItem = memo(({ note, uploader, onDelete }) => {
   const timeAgo = (date) => {
@@ -35,6 +41,9 @@ const NoteItem = memo(({ note, uploader, onDelete }) => {
     if (diff < 86400) return `${Math.floor(diff / 3600)}h yang lalu`;
     return new Date(date).toLocaleDateString('id-ID');
   };
+
+  // Fallback ke "User" jika uploader tidak tersedia
+  const displayUploader = uploader || 'User';
 
   return (
     <div className={styles.contentCard}>
@@ -50,7 +59,7 @@ const NoteItem = memo(({ note, uploader, onDelete }) => {
           </p>
           <div className={styles.contentMeta}>
             <span className={styles.metaBadge}>
-              👤 {uploader}
+              👤 {displayUploader}
             </span>
             <span className={styles.metaBadge}>
               ⏱ {timeAgo(note.created_at)}
@@ -72,7 +81,10 @@ const NoteItem = memo(({ note, uploader, onDelete }) => {
 NoteItem.displayName = 'NoteItem';
 
 // Component for Materi/Latsol with Delete
-const ContentItem = memo(({ item, tableName, uploader, onDelete }) => {
+const ContentItem = memo(({ item, tableName, uploader, userRole, onDelete }) => {
+  const isAdminContent = userRole === 'admin';
+  const displayUploader = getDisplayUploader(uploader, isAdminContent);
+
   return (
     <div className={styles.contentCard}>
       <div className={styles.contentHeader}>
@@ -84,7 +96,7 @@ const ContentItem = memo(({ item, tableName, uploader, onDelete }) => {
               📁 {tableName}
             </span>
             <span className={styles.metaBadge}>
-              👤 {uploader}
+              👤 {displayUploader}
             </span>
             <span className={styles.metaBadge}>
               📅 {new Date(item.created_at).toLocaleDateString('id-ID')}
@@ -164,7 +176,7 @@ export default memo(function ContentManagement() {
         .from(activeTable)
         .select(`
           *,
-          profiles(username)
+          profiles(username, role)
         `)
         .order('created_at', { ascending: false });
 
@@ -172,7 +184,8 @@ export default memo(function ContentManagement() {
 
       const processedData = data.map(item => ({
         ...item,
-        uploader: item.profiles?.username || 'Pengguna'
+        uploader: item.profiles?.username || 'Pengguna',
+        userRole: item.profiles?.role || 'user'
       }));
 
       setContents(processedData);
@@ -376,6 +389,7 @@ export default memo(function ContentManagement() {
                 item={item}
                 tableName={activeTable}
                 uploader={item.uploader}
+                userRole={item.userRole}
                 onDelete={handleDeleteContent}
               />
             ))
