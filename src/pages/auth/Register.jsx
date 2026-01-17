@@ -79,7 +79,7 @@ setLoading(false);
 Swal.fire({
     icon: 'success',
     title: 'Registrasi Berhasil',
-    text: 'Silakan cek spam untuk verifikasi akun.',
+    text: 'Silakan cek <b>email anda(spam)</b> untuk verifikasi akun.',
     confirmButtonColor: '#007bff'
 }).then(() => {
     navigate('/check-email');

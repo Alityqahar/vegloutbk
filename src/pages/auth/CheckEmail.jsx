@@ -15,7 +15,7 @@ return (
         </div>
         <p style={{ fontSize: '1.1rem', color: '#333', marginBottom: '1.2rem', textAlign: 'center' }}>
         Terima kasih telah mendaftar! <br />
-        Silakan cek spam email Anda untuk melakukan verifikasi akun sebelum login.
+        Silakan cek <b>email(SPAM)</b> Anda untuk melakukan verifikasi akun sebelum login.
         </p>
         <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
         <Link to="/login" className={styles.authBtn} style={{color:'white'}}>
