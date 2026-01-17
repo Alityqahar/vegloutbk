@@ -51,9 +51,9 @@
   color: var(--color-primary-dark);
 }
 
-.logoIcon {
-  font-size: 1.5rem;
-  line-height: 1;
+.logoIcon img{
+  height: 50px;
+  width: auto;
 }
 
 .logoText {

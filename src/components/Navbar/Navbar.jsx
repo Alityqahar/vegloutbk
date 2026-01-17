@@ -283,8 +283,7 @@ function Navbar() {
       <div className={styles.navContainer}>
         <div className={styles.left}>
           <Link to="/" className={styles.logo}>
-            <span className={styles.logoIcon}>📚</span>
-            <span className={styles.logoText}>VegloUTBK</span>
+            <span className={styles.logoIcon}><img src="logo2.png" alt="" /></span>
           </Link>
           
           <ul className={`${styles.menu} ${mobileMenuOpen ? styles.menuOpen : ''}`}>
